@@ -1,6 +1,6 @@
-[] ajouter temps de livraison par véhicule
+[x] ajouter temps de livraison par véhicule
 [x] racorder les 2 interfaces graphique
-[] ajout du fait de pouvoir ajouter une pizza
+[x] ajout du fait de pouvoir ajouter une pizza
 [] ingrediant s'enleve au fur et a meusure des commandes
 [] controller pas avec graphiques 
 [] pizzeria gère ajoute client, pizza, ingrédients 

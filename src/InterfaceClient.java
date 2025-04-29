@@ -10,7 +10,7 @@ public class InterfaceClient {
     public InterfaceClient(Point_Pizzaria p) {
         this.pointPizzaria = p;
         // Charger et redimensionner le logo
-        logoIcon = new ImageIcon("C:/path/to/logo.png");
+        logoIcon = new ImageIcon("C:\\Users\\chaab\\Downloads\\17 avr. 2025, 10_40_33.png");
         logoIcon = redimensionnerImage(logoIcon, 80, 80);
         afficherConnexion();
     }

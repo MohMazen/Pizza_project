@@ -167,13 +167,18 @@ public class Point_Pizzaria {
 		return sb.toString();
 	}
 
-	// Afficher le solde total de tous les clients
-	public int getSoldeTotalClients() {
-		int total = 0;
+	 // Calcule la trésorerie : somme de tous les montants de toutes les commandes passées
+	public double getTresorerie() {
+		double total = 0.0;
+		// Pour chaque client
 		for (Client c : id_client) {
-			total += c.getSold();
+			// Pour chaque commande du client
+			for (Commande com : c.getCommandes()) {
+				total += com.calculPrixTotal();
+			}
 		}
 		return total;
 	}
+
 
 }
