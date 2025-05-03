@@ -1,31 +1,33 @@
-import javax.swing.SwingUtilities;
+// File: src/rapizz/Main.java
+import rapizz.model.*;
+import rapizz.controller.InterfacePrincipaleController;
+import rapizz.view.InterfacePrincipaleView;
 
 public class Main {
     public static void main(String[] args) {
-        // Création du point RaPizz
-        Point_Pizzaria pizzaria = new Point_Pizzaria(1, "RaPizz", "123 Rue de la Pizza");
+        Point_Pizzaria pz = new Point_Pizzaria("RaPizz", "10 rue de la Pizza, Paris");
+        pz.ajouterIngredient("Tomate", 100);
+        pz.ajouterIngredient("Mozzarella", 100);
+        pz.ajouterIngredient("Jambon", 50);
+        pz.ajouterIngredient("Champignons", 50);
 
-        // Clients
-        Client client1 = new Client(1, "Ali", "123 Rue", "0612345678", 100, pizzaria);
-        Client client2 = new Client(2, "Sofia", "456 Avenue", "0623456789", 150, pizzaria);
-        pizzaria.ajouterClient(client1);
-        pizzaria.ajouterClient(client2);
+        Pizza margherita = new Pizza("Margherita", 8.0);
+        margherita.addIngredient(new Ingredient("Tomate", 1));
+        margherita.addIngredient(new Ingredient("Mozzarella", 1));
+        pz.ajouterPizza(margherita);
 
-        // Pizzas
-        Pizza p1 = new Pizza("Margherita", "humaine", 10.0, pizzaria);
-        Pizza p2 = new Pizza("Reine", "humaine", 12.0, pizzaria);
-        Pizza gratuite = new Pizza("Pizza Gratuite", "humaine", 0.0, pizzaria);
-        pizzaria.ajouterPizza(p1);
-        pizzaria.ajouterPizza(p2);
-        pizzaria.ajouterPizza(gratuite);
+        Pizza reine = new Pizza("Reine", 10.0);
+        reine.addIngredient(new Ingredient("Tomate", 1));
+        reine.addIngredient(new Ingredient("Mozzarella", 1));
+        reine.addIngredient(new Ingredient("Jambon", 1));
+        pz.ajouterPizza(reine);
 
-        // Ingrédients
-        Ingredient i1 = new Ingredient("Fromage", 50);
-        Ingredient i2 = new Ingredient("Tomate", 30);
-        pizzaria.ajouterIngredient(i1);
-        pizzaria.ajouterIngredient(i2);
+        Client alice = new Client("0612345678", "Alice", "12 avenue des Champs", 50.0, pz);
+        Client bob   = new Client("0698765432", "Bob",   "34 boulevard Saint-Germain", 30.0, pz);
+        pz.ajouterClient(alice);
+        pz.ajouterClient(bob);
 
-        // Lancer l'interface principale
-        SwingUtilities.invokeLater(() -> new InterfacePrincipale(pizzaria));
+
+        new InterfacePrincipaleView(new InterfacePrincipaleController(pz));
     }
 }

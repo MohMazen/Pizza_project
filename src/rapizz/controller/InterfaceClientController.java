@@ -1,0 +1,76 @@
+// src/rapizz/controller/InterfaceClientController.java
+package rapizz.controller;
+
+import rapizz.model.Point_Pizzaria;
+import rapizz.model.Client;
+import rapizz.view.InterfaceClientView;
+import rapizz.view.InterfacePrincipaleView;
+import rapizz.controller.OrderPizzaController;
+
+import javax.swing.*;
+
+/**
+ * Contrôleur pour l'espace client.
+ */
+public class InterfaceClientController {
+    private final Point_Pizzaria pizzeria;
+    private final Client client;
+    private final InterfaceClientView view;
+
+    public InterfaceClientController(Point_Pizzaria pizzeria, Client client) {
+        this.pizzeria = pizzeria;
+        this.client    = client;
+        this.view      = new InterfaceClientView(this);
+    }
+
+    /** Ouvre la vue de commande de pizza. */
+    public void showOrderPizza() {
+        // Instancie OrderPizzaController qui crée et affiche OrderPizzaView
+        new OrderPizzaController(pizzeria, client);
+    }
+
+    /** Affiche un récapitulatif des commandes du client. */
+    public void showOrders() {
+        // On suppose que Point_Pizzaria a une méthode afficherCommandesClient(Client)
+        String summary = pizzeria.afficherCommandesClient(client);
+        JOptionPane.showMessageDialog(
+                view,
+                summary,
+                "Résumé de vos commandes",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+    }
+
+    /** Affiche le solde du client. */
+    public void showBalance() {
+        double solde = client.getSolde();
+        JOptionPane.showMessageDialog(
+                view,
+                String.format("Votre solde : %.2f €", solde),
+                "Solde",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+    }
+
+    /** Permet d'ajouter du solde au compte client. */
+    public void addBalance() {
+        String input = JOptionPane.showInputDialog(view, "Montant à ajouter :");
+        if (input != null && input.matches("\\d+(\\.\\d{1,2})?")) {
+            client.approvisionner(Double.parseDouble(input));
+            JOptionPane.showMessageDialog(view, "Solde mis à jour.");
+        } else {
+            JOptionPane.showMessageDialog(
+                    view,
+                    "Montant invalide.",
+                    "Erreur",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+
+    /** Retourne à l'interface principale et ferme la vue client. */
+    public void returnToMain() {
+        new InterfacePrincipaleView(new InterfacePrincipaleController(pizzeria)).setVisible(true);
+        view.dispose();
+    }
+}

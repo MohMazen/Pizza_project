@@ -2,5 +2,7 @@
 [x] racorder les 2 interfaces graphique
 [x] ajout du fait de pouvoir ajouter une pizza
 [] ingrediant s'enleve au fur et a meusure des commandes
-[] controller pas avec graphiques 
-[] pizzeria gère ajoute client, pizza, ingrédients 
+[x] rapizz.controller pas avec graphiques
+[x] pizzeria gère ajoute client, pizza, ingrédients
+[x]verifier vector pas bon
+[x]utiliser showMessageDialog pour l'interface gestion
