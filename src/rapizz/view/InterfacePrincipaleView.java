@@ -1,3 +1,4 @@
+// File: src/rapizz/view/InterfacePrincipaleView.java
 package rapizz.view;
 
 import rapizz.controller.InterfacePrincipaleController;
@@ -6,9 +7,6 @@ import java.awt.*;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.extras.components.FlatButton;
 
-/**
- * Vue principale affichée au démarrage de l'application.
- */
 public class InterfacePrincipaleView extends JFrame {
     private FlatButton loginButton;
     private FlatButton gestionButton;
@@ -34,12 +32,14 @@ public class InterfacePrincipaleView extends JFrame {
         gbc.anchor = GridBagConstraints.CENTER;
 
         // Bouton Connexion Client
-        gbc.gridx = 0;
-        gbc.gridy = 0;
+        gbc.gridx = 0; gbc.gridy = 0;
         loginButton = new FlatButton();
         loginButton.setText("Connexion Client");
         loginButton.setPreferredSize(new Dimension(160, 50));
-        loginButton.addActionListener(e -> controller.showLogin(this));
+        loginButton.addActionListener(e -> {
+            controller.showLogin();
+            dispose();
+        });
         panel.add(loginButton, gbc);
 
         // Bouton Gestion
@@ -47,7 +47,10 @@ public class InterfacePrincipaleView extends JFrame {
         gestionButton = new FlatButton();
         gestionButton.setText("Gestion");
         gestionButton.setPreferredSize(new Dimension(160, 50));
-        gestionButton.addActionListener(e -> controller.showGestion(this));
+        gestionButton.addActionListener(e -> {
+            controller.showGestion();
+            dispose();
+        });
         panel.add(gestionButton, gbc);
 
         // Bouton Quitter

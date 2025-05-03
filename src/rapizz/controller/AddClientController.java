@@ -1,10 +1,9 @@
-// --- src/rapizz/controller/AddClientController.java ---
+// File: src/rapizz/controller/AddClientController.java
 package rapizz.controller;
 
 import rapizz.model.Client;
 import rapizz.model.Point_Pizzaria;
 import rapizz.view.AddClientView;
-import rapizz.view.GestionRapizzView;
 
 import javax.swing.*;
 
@@ -16,6 +15,8 @@ public class AddClientController {
         this.model = model;
         this.view = view;
         initController();
+        // Affiche la vue après avoir rattache les listeners
+        view.setVisible(true);
     }
 
     private void initController() {
@@ -28,7 +29,6 @@ public class AddClientController {
         String addr  = view.getAddressField().getText().trim();
         String phone = view.getPhoneField().getText().trim();
 
-        // Validation des champs
         if (name.isEmpty() || addr.isEmpty() || !phone.matches("\\d{10}")) {
             JOptionPane.showMessageDialog(
                     view,
@@ -39,7 +39,6 @@ public class AddClientController {
             return;
         }
 
-        // Vérifier l’existence du client
         if (model.findClientByPhone(phone) != null) {
             JOptionPane.showMessageDialog(
                     view,
@@ -50,7 +49,6 @@ public class AddClientController {
             return;
         }
 
-        // Création et ajout du client
         Client c = new Client(phone, name, addr, 0.0, model);
         model.ajouterClient(c);
 
@@ -61,20 +59,12 @@ public class AddClientController {
                 JOptionPane.INFORMATION_MESSAGE
         );
 
-        // Retour à l'écran de gestion
-        openGestion();
-        view.dispose();
+        onBack();
     }
 
     private void onBack() {
-        // Simple retour sans ajout
-        openGestion();
-        view.dispose();
-    }
-
-    private void openGestion() {
-        GestionRapizzView gestionView = new GestionRapizzView();
+        // Retour à l'écran de gestion et fermeture de cette fenêtre
         new GestionRapizzController(model);
-        gestionView.setVisible(true);
+        view.dispose();
     }
 }

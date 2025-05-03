@@ -11,18 +11,17 @@ public class OrderPizzaView extends JFrame {
     private JComboBox<String> cbSize;
     private JTextField qtyField;
     private JCheckBox chkMoto;
-    private JButton btnChoose;
+    private JButton btnAdd;
     private JButton btnQuit;
     private JButton btnOrder;
     private JTextArea txtSummary;
 
     public OrderPizzaView(Point_Pizzaria model) {
-        super("Commander une Pizza");
+        super("Commander des Pizzas");
         FlatLightLaf.setup();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setSize(800, 450);
         setLocationRelativeTo(null);
-
         initComponents(model);
         setVisible(true);
     }
@@ -30,9 +29,9 @@ public class OrderPizzaView extends JFrame {
     private void initComponents(Point_Pizzaria model) {
         setLayout(new BorderLayout(10, 10));
 
-        // ← PANNEAU GAUCHE : tous les contrôles
+        // ← GAUCHE : sélection et boutons
         JPanel left = new JPanel(new GridBagLayout());
-        left.setBorder(BorderFactory.createTitledBorder("Options de commande"));
+        left.setBorder(BorderFactory.createTitledBorder("Sélection"));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(8, 8, 8, 8);
         gbc.anchor = GridBagConstraints.WEST;
@@ -59,27 +58,26 @@ public class OrderPizzaView extends JFrame {
         qtyField = new JTextField(5);
         left.add(qtyField, gbc);
 
-        // Checkbox moto
+        // Livraison moto
         gbc.gridx = 0; gbc.gridy = ++y; gbc.gridwidth = 2;
-        chkMoto = new JCheckBox("Livraison en moto (+2€)");
+        chkMoto = new JCheckBox("Livraison en moto (+2 €)");
         left.add(chkMoto, gbc);
         gbc.gridwidth = 1;
 
-        // Bouton Choisir
+        // Boutons Ajouter / Annuler
         gbc.gridx = 0; gbc.gridy = ++y;
-        btnChoose = new JButton("Calculer");
-        left.add(btnChoose, gbc);
+        btnAdd = new JButton("Ajouter");
+        left.add(btnAdd, gbc);
 
-        // Bouton Quitter
         gbc.gridx = 1;
         btnQuit = new JButton("Annuler");
         left.add(btnQuit, gbc);
 
         add(left, BorderLayout.WEST);
 
-        // ← PANNEAU DROIT : résumé + commander
+        // ← DROITE : panier et Commander
         JPanel right = new JPanel(new BorderLayout(10, 10));
-        right.setBorder(BorderFactory.createTitledBorder("Résumé de la commande"));
+        right.setBorder(BorderFactory.createTitledBorder("Panier"));
 
         txtSummary = new JTextArea();
         txtSummary.setEditable(false);
@@ -96,12 +94,12 @@ public class OrderPizzaView extends JFrame {
         add(right, BorderLayout.CENTER);
     }
 
-    // Getters pour le controller
+    // Getters
     public JComboBox<String> getCbPizza()   { return cbPizza;   }
     public JComboBox<String> getCbSize()    { return cbSize;    }
     public JTextField getQtyField()         { return qtyField;  }
     public JCheckBox getChkMoto()           { return chkMoto;   }
-    public JButton getBtnChoose()           { return btnChoose; }
+    public JButton getBtnAdd()              { return btnAdd;    }
     public JButton getBtnQuit()             { return btnQuit;   }
     public JButton getBtnOrder()            { return btnOrder;  }
     public JTextArea getTxtSummary()        { return txtSummary;}
