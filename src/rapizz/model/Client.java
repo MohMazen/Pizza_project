@@ -1,8 +1,12 @@
-// ===== rapizz/model/Client.java =====
+// File: Client.java
 package rapizz.model;
 
 import java.util.Vector;
 
+/**
+ * Représente un client identifié par son téléphone,
+ * avec son solde prépayé et son historique de commandes.
+ */
 public class Client {
 	private String telephone;
 	private String nom;
@@ -11,6 +15,9 @@ public class Client {
 	private Vector<Commande> commandes = new Vector<>();
 	private Point_Pizzaria pizzaria;
 
+	/**
+	 * Initialise un client abonné à un point Pizzaria.
+	 */
 	public Client(String telephone, String nom, String adresse, double solde, Point_Pizzaria pizzaria) {
 		this.telephone = telephone;
 		this.nom = nom;
@@ -19,17 +26,44 @@ public class Client {
 		this.pizzaria = pizzaria;
 	}
 
-	public String getTelephone() { return telephone; }
-	public String getNom() { return nom; }
-	public String getAdresse() { return adresse; }
+	/** @return le numéro de téléphone. */
+	public String getTelephone() {
+		return telephone;
+	}
 
+	/** @return le nom du client. */
+	public String getNom() {
+		return nom;
+	}
+
+	/** @return l’adresse de livraison. */
+	public String getAdresse() {
+		return adresse;
+	}
+
+	/**
+	 * Vérifie que le téléphone fait bien 10 chiffres.
+	 * @return 1 si valide, 0 sinon.
+	 */
 	public int verifierNumeroTelephone() {
 		return (telephone != null && telephone.matches("\\d{10}")) ? 1 : 0;
 	}
 
-	public double getSolde() { return solde; }
-	public void approvisionner(double montant) { solde += montant; }
+	/** @return le solde restant sur le compte. */
+	public double getSolde() {
+		return solde;
+	}
 
+	/** Ajoute un montant au solde. */
+	public void approvisionner(double montant) {
+		solde += montant;
+	}
+
+	/**
+	 * Débite le compte du client.
+	 * @param montant Montant à débiter.
+	 * @return 1 si l’opération réussit, 0 si solde insuffisant.
+	 */
 	public int debiter(double montant) {
 		if (solde >= montant) {
 			solde -= montant;
@@ -38,8 +72,13 @@ public class Client {
 		return 0;
 	}
 
-	public void ajouterCommande(Commande c) { commandes.add(c); }
-	public Vector<Commande> getCommandes() { return commandes; }
+	/** Ajoute une commande à l’historique. */
+	public void ajouterCommande(Commande c) {
+		commandes.add(c);
+	}
 
-
+	/** @return l’historique des commandes. */
+	public Vector<Commande> getCommandes() {
+		return commandes;
+	}
 }
