@@ -14,14 +14,18 @@ public class Livreur {
 	private Vector<Commande> num_com = new Vector<>();
 	private Point_Pizzaria pizzaria;          // point de départ / d’attache
 
-	/** Constructeur sans point de Pizzaria. */
+	/**
+	 * Constructeur sans point de Pizzaria.
+	 */
 	public Livreur(int id, String nomL, String typeVec) {
 		this.id_liv = id;
 		this.nom_L = nomL;
 		this.type_Vec = typeVec;
 	}
 
-	/** Constructeur avec point de Pizzaria. */
+	/**
+	 * Constructeur avec point de Pizzaria.
+	 */
 	public Livreur(int id, String nomL, String typeVec, Point_Pizzaria pz) {
 		this(id, nomL, typeVec);
 		this.pizzaria = pz;

@@ -26,17 +26,15 @@ public class Client {
 		this.pizzaria = pizzaria;
 	}
 
-	/** @return le numéro de téléphone. */
+	// --- Getters & Setters ---
 	public String getTelephone() {
 		return telephone;
 	}
 
-	/** @return le nom du client. */
 	public String getNom() {
 		return nom;
 	}
 
-	/** @return l’adresse de livraison. */
 	public String getAdresse() {
 		return adresse;
 	}
@@ -49,12 +47,10 @@ public class Client {
 		return (telephone != null && telephone.matches("\\d{10}")) ? 1 : 0;
 	}
 
-	/** @return le solde restant sur le compte. */
 	public double getSolde() {
 		return solde;
 	}
 
-	/** Ajoute un montant au solde. */
 	public void approvisionner(double montant) {
 		solde += montant;
 	}
@@ -72,12 +68,10 @@ public class Client {
 		return 0;
 	}
 
-	/** Ajoute une commande à l’historique. */
 	public void ajouterCommande(Commande c) {
 		commandes.add(c);
 	}
 
-	/** @return l’historique des commandes. */
 	public Vector<Commande> getCommandes() {
 		return commandes;
 	}

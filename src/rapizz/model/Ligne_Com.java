@@ -67,3 +67,4 @@ public class Ligne_Com {
 		return (this.quantite == 0) ? 1 : 0;
 	}
 }
+

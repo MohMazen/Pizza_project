@@ -39,6 +39,7 @@ public class Pizza {
 		return ingredients;
 	}
 
+
 	public void addIngredient(Ingredient ing) {
 		ingredients.add(ing);
 	}
