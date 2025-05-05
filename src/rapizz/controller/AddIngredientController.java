@@ -58,8 +58,7 @@ public class AddIngredientController {
     }
 
     private void openGestion() {
-        GestionRapizzView gestionView = new GestionRapizzView();
         new GestionRapizzController(model);
-        gestionView.setVisible(true);
+        view.dispose();
     }
 }

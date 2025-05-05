@@ -28,7 +28,7 @@ public class InterfacePrincipaleView extends JFrame {
 
     private void initComponents() {
         // Chargement de l'image de fond
-        String imagePath = "src/rapizz/pics/background_pizza.png";
+        String imagePath = "src/rapizz/pics/Background_pizza.png";
         Image bgImage = new ImageIcon(imagePath).getImage();
 
         // Panel pour le fond
@@ -43,17 +43,20 @@ public class InterfacePrincipaleView extends JFrame {
         };
         backgroundPanel.setOpaque(true);
 
-        // Titre
-        JLabel titleLabel = new JLabel("Bienvenue chez RaPizz");
-        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        titleLabel.setFont(new Font("SansSerif", Font.BOLD, 32));
-        titleLabel.setForeground(Color.BLACK);
-        titleLabel.setBorder(BorderFactory.createEmptyBorder(100, 0, 20, 0));
-        backgroundPanel.add(titleLabel, BorderLayout.NORTH);
+        // Chargement du logo
+        String logoPath = "src/rapizz/pics/logo.png";
+        ImageIcon originalIcon = new ImageIcon(logoPath);
+        Image scaledImage = originalIcon.getImage().getScaledInstance(300, 160, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+        JLabel logoLabel = new JLabel(scaledIcon);
+        logoLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        logoLabel.setBorder(BorderFactory.createEmptyBorder(100, 0, 50, 0));
+        backgroundPanel.add(logoLabel, BorderLayout.NORTH);
 
         // Panel central pour centrer les boutons
         JPanel centerPanel = new JPanel(new GridBagLayout());
         centerPanel.setOpaque(false);
+        centerPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 90, 0));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.anchor = GridBagConstraints.CENTER;
@@ -63,8 +66,8 @@ public class InterfacePrincipaleView extends JFrame {
         JPanel topButtons = new JPanel(new FlowLayout(FlowLayout.CENTER, 50, 0));
         topButtons.setOpaque(false);
         loginButton = new FlatButton();
-        loginButton.setText("Connexion");
-        styleButton(loginButton, new Dimension(150, 40), new Color(255, 87, 34));
+        loginButton.setText("Connexion Client");
+        styleButton(loginButton, new Dimension(150, 40), new Color(255, 34, 34));
         loginButton.setForeground(Color.BLACK);
         loginButton.addActionListener(e -> { controller.showLogin(); dispose(); });
         topButtons.add(loginButton);
@@ -81,7 +84,7 @@ public class InterfacePrincipaleView extends JFrame {
         // Bouton Quitter en dessous
         quitButton = new FlatButton();
         quitButton.setText("Quitter");
-        styleButton(quitButton, new Dimension(150, 40), new Color(66, 66, 66));
+        styleButton(quitButton, new Dimension(150, 40), new Color(255, 255, 255));
         quitButton.setForeground(Color.BLACK);
         quitButton.addActionListener(e -> controller.exitApplication());
         gbc.gridy = 1;

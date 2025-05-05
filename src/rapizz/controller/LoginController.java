@@ -2,6 +2,8 @@ package rapizz.controller;
 
 import rapizz.model.Point_Pizzaria;
 import rapizz.model.Client;
+import rapizz.view.InterfacePrincipaleView;
+
 import java.util.Vector;
 
 public class LoginController {
@@ -39,5 +41,11 @@ public class LoginController {
 
     private boolean isValidPhoneNumber(String phone) {
         return phone != null && phone.matches("\\d{10}"); // Exemple : 10 chiffres
+    }
+
+    public void handleBackAction() {
+        InterfacePrincipaleView interfaceView = new InterfacePrincipaleView(new InterfacePrincipaleController(pizzeria));
+        interfaceView.setVisible(true);
+        interfaceView.dispose();
     }
 }

@@ -1,5 +1,6 @@
 package rapizz.view;
 
+import rapizz.controller.InterfacePrincipaleController;
 import rapizz.controller.LoginController;
 import rapizz.controller.InterfaceClientController;
 import rapizz.model.Client;
@@ -25,8 +26,22 @@ public class LoginView extends JFrame {
     }
 
     private void initComponents() {
-        JPanel panel = new JPanel(new GridBagLayout());
-        panel.setBackground(Color.WHITE);
+        // Chargement de l'image de fond
+        String imagePath = "src/rapizz/pics/Background_pizza.png";
+        Image bgImage = new ImageIcon(imagePath).getImage();
+
+        // Panel avec fond personnalisé
+        JPanel panel = new JPanel(new GridBagLayout()) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                if (bgImage != null) {
+                    g.drawImage(bgImage, 0, 0, getWidth(), getHeight(), this);
+                }
+            }
+        };
+
+        panel.setOpaque(false); // Assurez-vous que le panel est transparent
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.anchor = GridBagConstraints.CENTER;
@@ -71,6 +86,7 @@ public class LoginView extends JFrame {
     }
 
     private void onBack() {
-        dispose(); // Ferme la fenêtre actuelle
-    }
+        dispose();
+        new InterfacePrincipaleView(new InterfacePrincipaleController(controller.getPizzeria())).setVisible(true);
+        }
 }

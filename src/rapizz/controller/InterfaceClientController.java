@@ -40,6 +40,7 @@ public class InterfaceClientController {
                 JOptionPane.INFORMATION_MESSAGE
         );
     }
+    // src/rapizz/controller/InterfaceClientController.java
 
     /** Affiche le solde du client. */
     public void showBalance() {
@@ -55,13 +56,20 @@ public class InterfaceClientController {
     /** Permet d'ajouter du solde au compte client. */
     public void addBalance() {
         String input = JOptionPane.showInputDialog(view, "Montant à ajouter :");
+        // Vérifie un nombre positif avec éventuellement deux décimales
         if (input != null && input.matches("\\d+(\\.\\d{1,2})?")) {
-            client.approvisionner(Double.parseDouble(input));
-            JOptionPane.showMessageDialog(view, "Solde mis à jour.");
+            double montant = Double.parseDouble(input);
+            client.approvisionner(montant);
+            JOptionPane.showMessageDialog(
+                    view,
+                    String.format("Solde mis à jour ! Nouveau solde : %.2f €", client.getSolde()),
+                    "Succès",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
         } else {
             JOptionPane.showMessageDialog(
                     view,
-                    "Montant invalide.",
+                    "Montant invalide, veuillez entrer un nombre (ex. 12.50).",
                     "Erreur",
                     JOptionPane.ERROR_MESSAGE
             );
