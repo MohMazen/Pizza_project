@@ -11,82 +11,102 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Vue pour l'espace client avec disposition 2x2 boutons et image de fond.
+ * Vue pour l'espace client avec disposition 2x2 des boutons et bouton retour centré dessous.
  */
 public class InterfaceClientView extends JFrame {
-    private final FlatButton btnOrderPizza;
-    private final FlatButton btnViewOrders;
-    private final FlatButton btnViewBalance;
-    private final FlatButton btnAddBalance;
-    private final FlatButton btnBack;
+    private FlatButton btnOrderPizza;
+    private FlatButton btnViewOrders;
+    private FlatButton btnViewBalance;
+    private FlatButton btnAddBalance;
+    private FlatButton btnBack;
 
     public InterfaceClientView(InterfaceClientController controller) {
         super("RaPizz - Espace Client");
         FlatLightLaf.setup();
 
-        // Panneau de fond avec image
-        BackgroundPanel background = new BackgroundPanel("rapizz/resources/Background_cilent.png");
-        background.setLayout(new GridBagLayout());
+        // Panneau de fond avec couleur rouge
+        BackgroundPanel background = new BackgroundPanel(null); // Pas d'image de fond
+        background.setBackground(Color.RED);
+        background.setLayout(new BorderLayout());
         setContentPane(background);
 
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(20, 20, 20, 20); // Augmente les marges
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.CENTER;
+        // Ajout de l'image en haut
+        try {
+            JLabel topImage = new JLabel(new ImageIcon("rapizz/resources/top_image.png"));
+            topImage.setHorizontalAlignment(SwingConstants.CENTER);
+            background.add(topImage, BorderLayout.NORTH);
+        } catch (Exception e) {
+            System.err.println("Image du haut non trouvée : rapizz/resources/top_image.png");
+        }
 
-        // Tableau 2x2 pour les 4 premiers boutons
-        JPanel buttonPanel = new JPanel(new GridLayout(2, 2, 30, 30)); // Augmente l'espacement
-        buttonPanel.setOpaque(false);
+        // Panneau principal vertical
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setOpaque(false);
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(300, 30, 20, 30));
+
+        // Panneau 2x2 pour les 4 boutons
+        JPanel gridButtons = new JPanel(new GridLayout(2, 2, 30, 20));
+        gridButtons.setOpaque(false);
 
         btnOrderPizza = new FlatButton();
         btnOrderPizza.setText("Commander une pizza");
-        styleButton(btnOrderPizza);
+        styleButton(btnOrderPizza, Color.YELLOW);
         btnOrderPizza.addActionListener(e -> controller.showOrderPizza());
-        buttonPanel.add(btnOrderPizza);
+        gridButtons.add(btnOrderPizza);
 
         btnViewOrders = new FlatButton();
         btnViewOrders.setText("Voir mes commandes");
-        styleButton(btnViewOrders);
+        styleButton(btnViewOrders, Color.YELLOW);
         btnViewOrders.addActionListener(e -> controller.showOrders());
-        buttonPanel.add(btnViewOrders);
+        gridButtons.add(btnViewOrders);
 
         btnViewBalance = new FlatButton();
         btnViewBalance.setText("Voir mon solde");
-        styleButton(btnViewBalance);
+        styleButton(btnViewBalance, Color.YELLOW);
         btnViewBalance.addActionListener(e -> controller.showBalance());
-        buttonPanel.add(btnViewBalance);
+        gridButtons.add(btnViewBalance);
 
         btnAddBalance = new FlatButton();
         btnAddBalance.setText("Ajouter au solde");
-        styleButton(btnAddBalance);
+        styleButton(btnAddBalance, Color.YELLOW);
         btnAddBalance.addActionListener(e -> controller.addBalance());
-        buttonPanel.add(btnAddBalance);
+        gridButtons.add(btnAddBalance);
 
-        background.add(buttonPanel, gbc);
+        mainPanel.add(gridButtons);
 
-        // Bouton retour centré en bas
-        gbc.gridy = 1;
-        gbc.insets = new Insets(40, 20, 50, 20); // Augmente les marges pour le bouton retour
+        // Espacement vertical entre la grille et le bouton retour
+        mainPanel.add(Box.createVerticalStrut(30));
+
+        // Bouton "Retour à l'accueil" centré
         btnBack = new FlatButton();
         btnBack.setText("Retour à l'accueil");
-        styleButton(btnBack);
+        styleButton(btnBack, Color.YELLOW);
         btnBack.addActionListener(e -> controller.returnToMain());
-        background.add(btnBack, gbc);
+
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        bottomPanel.setOpaque(false);
+        bottomPanel.add(btnBack);
+        mainPanel.add(bottomPanel);
+
+        // Ajout au fond
+        background.add(mainPanel, BorderLayout.CENTER);
 
         pack();
         setSize(800, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setVisible(true);
+        setVisible(true); // nécessaire !
     }
 
     /**
      * Applique un style uniforme aux boutons.
      */
-    private void styleButton(FlatButton btn) {
+    private void styleButton(FlatButton btn, Color bgColor) {
         btn.putClientProperty("JButton.buttonType", "roundRect");
-        btn.setPreferredSize(new Dimension(160, 40));
+        btn.setPreferredSize(new Dimension(140, 35));
+        btn.setBackground(bgColor);
+        btn.setForeground(Color.BLACK);
     }
 
     /**
@@ -96,10 +116,12 @@ public class InterfaceClientView extends JFrame {
         private Image background;
 
         public BackgroundPanel(String imagePath) {
-            try {
-                background = ImageIO.read(new File(imagePath));
-            } catch (IOException e) {
-                System.err.println("Impossible de charger l'image de fond : " + imagePath);
+            if (imagePath != null) {
+                try {
+                    background = ImageIO.read(new File(imagePath));
+                } catch (IOException e) {
+                    System.err.println("Impossible de charger l'image de fond : " + imagePath);
+                }
             }
         }
 
@@ -110,5 +132,10 @@ public class InterfaceClientView extends JFrame {
                 g.drawImage(background, 0, 0, getWidth(), getHeight(), this);
             }
         }
+    }
+
+    public static void main(String[] args) {
+        InterfaceClientController controller = new InterfaceClientController(null, null);
+        new InterfaceClientView(controller);
     }
 }
