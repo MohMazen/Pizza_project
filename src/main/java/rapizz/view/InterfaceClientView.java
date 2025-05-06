@@ -25,7 +25,7 @@ public class InterfaceClientView extends JFrame {
         FlatLightLaf.setup();
 
         // Panneau de fond avec image
-        BackgroundPanel background = new BackgroundPanel("rapizz/pics/Background_cilent.png");
+        BackgroundPanel background = new BackgroundPanel("rapizz/resources/Background_cilent.png");
         background.setLayout(new GridBagLayout());
         setContentPane(background);
 

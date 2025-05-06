@@ -13,9 +13,8 @@ public class Client {
 	private String adresse;
 	private double solde;
 	private Vector<Commande> commandes = new Vector<>();
-	private Point_Pizzaria pizzaria;
 
-	/**
+    /**
 	 * Initialise un client abonné à un point Pizzaria.
 	 */
 	public Client(String telephone, String nom, String adresse, double solde, Point_Pizzaria pizzaria) {
@@ -23,8 +22,7 @@ public class Client {
 		this.nom = nom;
 		this.adresse = adresse;
 		this.solde = solde;
-		this.pizzaria = pizzaria;
-	}
+    }
 
 	// --- Getters & Setters ---
 	public String getTelephone() {
@@ -33,10 +31,6 @@ public class Client {
 
 	public String getNom() {
 		return nom;
-	}
-
-	public String getAdresse() {
-		return adresse;
 	}
 
 	/**

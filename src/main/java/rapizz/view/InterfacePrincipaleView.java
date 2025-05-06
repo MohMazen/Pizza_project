@@ -3,6 +3,8 @@ package rapizz.view;
 import rapizz.controller.InterfacePrincipaleController;
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
+
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.extras.components.FlatButton;
 
@@ -10,10 +12,7 @@ import com.formdev.flatlaf.extras.components.FlatButton;
  * Vue principale de l'application, avec image de fond redimensionnée et boutons centrés.
  */
 public class InterfacePrincipaleView extends JFrame {
-    private FlatButton loginButton;
-    private FlatButton gestionButton;
-    private FlatButton quitButton;
-    private InterfacePrincipaleController controller;
+    private final InterfacePrincipaleController controller;
 
     public InterfacePrincipaleView(InterfacePrincipaleController controller) {
         this.controller = controller;
@@ -28,24 +27,10 @@ public class InterfacePrincipaleView extends JFrame {
 
     private void initComponents() {
         // Chargement de l'image de fond
-        String imagePath = "src/main/java/rapizz/pics/Background_pizza.png";
-        Image bgImage = new ImageIcon(imagePath).getImage();
+        JPanel backgroundPanel = getJPanel();
 
-        // Panel pour le fond
-        JPanel backgroundPanel = new JPanel(new BorderLayout()) {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                if (bgImage != null) {
-                    g.drawImage(bgImage, 0, 0, getWidth(), getHeight(), this);
-                }
-            }
-        };
-        backgroundPanel.setOpaque(true);
-
-        // Chargement du logo
-        String logoPath = "src/main/java/rapizz/pics/logo.png";
-        ImageIcon originalIcon = new ImageIcon(logoPath);
+        // Chargement du logo via le classpath
+        ImageIcon originalIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/rapizz/resources/logo.png")));
         Image scaledImage = originalIcon.getImage().getScaledInstance(300, 160, Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(scaledImage);
         JLabel logoLabel = new JLabel(scaledIcon);
@@ -65,13 +50,15 @@ public class InterfacePrincipaleView extends JFrame {
         // Panel pour Connexion et Gestion côte à côte
         JPanel topButtons = new JPanel(new FlowLayout(FlowLayout.CENTER, 50, 0));
         topButtons.setOpaque(false);
-        loginButton = new FlatButton();
+
+        FlatButton loginButton = new FlatButton();
         loginButton.setText("Connexion Client");
         styleButton(loginButton, new Dimension(150, 40), new Color(255, 34, 34));
         loginButton.setForeground(Color.BLACK);
         loginButton.addActionListener(e -> { controller.showLogin(); dispose(); });
         topButtons.add(loginButton);
-        gestionButton = new FlatButton();
+
+        FlatButton gestionButton = new FlatButton();
         gestionButton.setText("Gestion Pizzeria");
         styleButton(gestionButton, new Dimension(150, 40), new Color(76, 175, 80));
         gestionButton.setForeground(Color.BLACK);
@@ -81,8 +68,8 @@ public class InterfacePrincipaleView extends JFrame {
         gbc.gridy = 0;
         centerPanel.add(topButtons, gbc);
 
-        // Bouton Quitter en dessous
-        quitButton = new FlatButton();
+        // Bouton Quitter
+        FlatButton quitButton = new FlatButton();
         quitButton.setText("Quitter");
         styleButton(quitButton, new Dimension(150, 40), new Color(255, 255, 255));
         quitButton.setForeground(Color.BLACK);
@@ -91,8 +78,8 @@ public class InterfacePrincipaleView extends JFrame {
         centerPanel.add(quitButton, gbc);
 
         backgroundPanel.add(centerPanel, BorderLayout.CENTER);
-
         setContentPane(backgroundPanel);
+
         // Redessiner le fond au redimensionnement
         addComponentListener(new java.awt.event.ComponentAdapter() {
             @Override
@@ -100,6 +87,22 @@ public class InterfacePrincipaleView extends JFrame {
                 backgroundPanel.repaint();
             }
         });
+    }
+
+    private JPanel getJPanel() {
+        Image bgImage = new ImageIcon(Objects.requireNonNull(getClass().getResource("/rapizz/resources/Background_pizza.png"))).getImage();
+
+        JPanel backgroundPanel = new JPanel(new BorderLayout()) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                if (bgImage != null) {
+                    g.drawImage(bgImage, 0, 0, getWidth(), getHeight(), this);
+                }
+            }
+        };
+        backgroundPanel.setOpaque(true);
+        return backgroundPanel;
     }
 
     // Méthode utilitaire pour styliser un bouton
