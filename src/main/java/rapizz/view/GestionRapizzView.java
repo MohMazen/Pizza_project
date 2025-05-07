@@ -8,7 +8,7 @@ import com.formdev.flatlaf.extras.components.FlatButton;
 
 /**
  * Vue de gestion de l'application RaPizz.
- * Affiche les boutons de navigation et expose des getters pour le controller.
+ * Boutons à droite, Retour et Quitter centrés, tous 200x45.
  */
 public class GestionRapizzView extends JFrame {
     private FlatButton btnClients;
@@ -25,52 +25,69 @@ public class GestionRapizzView extends JFrame {
         FlatLightLaf.setup();
         initComponents();
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(600, 600);
+        setSize(800, 600);
         setLocationRelativeTo(null);
     }
 
     private void initComponents() {
-        JPanel panel = new JPanel(new GridBagLayout());
-        panel.setBackground(Color.WHITE);
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 20, 10, 20);
-        gbc.anchor = GridBagConstraints.CENTER;
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setBackground(Color.WHITE);
 
-        int row = 0;
-        btnClients = new FlatButton(); btnClients.setText("Voir Clients"); gbc.gridy = row++;
-        panel.add(btnClients, gbc);
+        // Panel de droite : boutons principaux
+        JPanel rightPanel = new JPanel();
+        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
+        rightPanel.setBackground(Color.WHITE);
+        rightPanel.setBorder(BorderFactory.createEmptyBorder(40, 20, 40, 40));
 
-        btnRevenue = new FlatButton(); btnRevenue.setText("Chiffre d'Affaires"); gbc.gridy = row++;
-        panel.add(btnRevenue, gbc);
+        btnClients        = createButton("Voir Clients");
+        btnRevenue        = createButton("Chiffre d'Affaires");
+        btnStock          = createButton("Voir Stock");
+        btnAddIngredient  = createButton("Ajouter Ingrédient");
+        btnAddPizza       = createButton("Ajouter Pizza");
+        btnAddClient      = createButton("Ajouter Client");
 
-        btnStock = new FlatButton(); btnStock.setText("Voir Stock"); gbc.gridy = row++;
-        panel.add(btnStock, gbc);
+        rightPanel.add(btnClients);
+        rightPanel.add(Box.createVerticalStrut(20));
+        rightPanel.add(btnRevenue);
+        rightPanel.add(Box.createVerticalStrut(20));
+        rightPanel.add(btnStock);
+        rightPanel.add(Box.createVerticalStrut(20));
+        rightPanel.add(btnAddIngredient);
+        rightPanel.add(Box.createVerticalStrut(20));
+        rightPanel.add(btnAddPizza);
+        rightPanel.add(Box.createVerticalStrut(20));
+        rightPanel.add(btnAddClient);
 
-        btnAddIngredient = new FlatButton(); btnAddIngredient.setText("Ajouter Ingrédient"); gbc.gridy = row++;
-        panel.add(btnAddIngredient, gbc);
+        // Panel bas : retour et quitter
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 40, 20));
+        bottomPanel.setBackground(Color.WHITE);
 
-        btnAddPizza = new FlatButton(); btnAddPizza.setText("Ajouter Pizza"); gbc.gridy = row++;
-        panel.add(btnAddPizza, gbc);
+        btnBack = createButton("Retour à l'accueil");
+        btnQuit = createButton("Quitter");
 
-        btnAddClient = new FlatButton(); btnAddClient.setText("Ajouter Client"); gbc.gridy = row++;
-        panel.add(btnAddClient, gbc);
+        bottomPanel.add(btnBack);
+        bottomPanel.add(btnQuit);
 
-        btnBack = new FlatButton(); btnBack.setText("Retour à l'accueil"); gbc.gridy = row++;
-        panel.add(btnBack, gbc);
-
-        btnQuit = new FlatButton(); btnQuit.setText("Quitter"); gbc.gridy = row++;
-        panel.add(btnQuit, gbc);
-
-        getContentPane().add(panel);
+        mainPanel.add(rightPanel, BorderLayout.EAST);
+        mainPanel.add(bottomPanel, BorderLayout.SOUTH);
+        getContentPane().add(mainPanel);
     }
 
-    // Getters exposés pour le controller
-    public FlatButton getBtnClients() { return btnClients; }
-    public FlatButton getBtnRevenue() { return btnRevenue; }
-    public FlatButton getBtnStock() { return btnStock; }
-    public FlatButton getBtnAddIngredient() { return btnAddIngredient; }
-    public FlatButton getBtnAddPizza() { return btnAddPizza; }
-    public FlatButton getBtnAddClient() { return btnAddClient; }
-    public FlatButton getBtnBack() { return btnBack; }
-    public FlatButton getBtnQuit() { return btnQuit; }
+    private FlatButton createButton(String text) {
+        FlatButton btn = new FlatButton();
+        btn.setText(text);
+        btn.setPreferredSize(new Dimension(200, 45)); // même taille pour tous
+        btn.putClientProperty("JButton.buttonType", "roundRect");
+        return btn;
+    }
+
+    // Getters pour le contrôleur
+    public FlatButton getBtnClients()        { return btnClients; }
+    public FlatButton getBtnRevenue()        { return btnRevenue; }
+    public FlatButton getBtnStock()          { return btnStock; }
+    public FlatButton getBtnAddIngredient()  { return btnAddIngredient; }
+    public FlatButton getBtnAddPizza()       { return btnAddPizza; }
+    public FlatButton getBtnAddClient()      { return btnAddClient; }
+    public FlatButton getBtnBack()           { return btnBack; }
+    public FlatButton getBtnQuit()           { return btnQuit; }
 }

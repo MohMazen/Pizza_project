@@ -26,24 +26,26 @@ public class InterfaceClientView extends JFrame {
 
         // Panneau de fond avec couleur rouge
         BackgroundPanel background = new BackgroundPanel(null); // Pas d'image de fond
-        background.setBackground(Color.RED);
+        background.setBackground(new Color(140, 32, 32)); // Rouge en mode RGB
         background.setLayout(new BorderLayout());
         setContentPane(background);
 
         // Ajout de l'image en haut
         try {
-            JLabel topImage = new JLabel(new ImageIcon("rapizz/resources/top_image.png"));
+            ImageIcon originalIcon = new ImageIcon(getClass().getResource("/rapizz/resources/pizzaiolo.png"));
+            Image scaledImage = originalIcon.getImage().getScaledInstance(400, 200, Image.SCALE_SMOOTH);
+            JLabel topImage = new JLabel(new ImageIcon(scaledImage));
             topImage.setHorizontalAlignment(SwingConstants.CENTER);
             background.add(topImage, BorderLayout.NORTH);
         } catch (Exception e) {
-            System.err.println("Image du haut non trouvée : rapizz/resources/top_image.png");
+            System.err.println("Image du haut non trouvée : /pizzaiolo.png");
         }
 
         // Panneau principal vertical
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setOpaque(false);
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(300, 30, 20, 30));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(100, 30, 20, 30));
 
         // Panneau 2x2 pour les 4 boutons
         JPanel gridButtons = new JPanel(new GridLayout(2, 2, 30, 20));
@@ -51,25 +53,25 @@ public class InterfaceClientView extends JFrame {
 
         btnOrderPizza = new FlatButton();
         btnOrderPizza.setText("Commander une pizza");
-        styleButton(btnOrderPizza, Color.YELLOW);
+        styleButton(btnOrderPizza, 245, 191, 66); // Jaune
         btnOrderPizza.addActionListener(e -> controller.showOrderPizza());
         gridButtons.add(btnOrderPizza);
 
         btnViewOrders = new FlatButton();
         btnViewOrders.setText("Voir mes commandes");
-        styleButton(btnViewOrders, Color.YELLOW);
+        styleButton(btnViewOrders, 245, 191, 66); // Jaune
         btnViewOrders.addActionListener(e -> controller.showOrders());
         gridButtons.add(btnViewOrders);
 
         btnViewBalance = new FlatButton();
         btnViewBalance.setText("Voir mon solde");
-        styleButton(btnViewBalance, Color.YELLOW);
+        styleButton(btnViewBalance, 245, 191, 66); // Jaune
         btnViewBalance.addActionListener(e -> controller.showBalance());
         gridButtons.add(btnViewBalance);
 
         btnAddBalance = new FlatButton();
         btnAddBalance.setText("Ajouter au solde");
-        styleButton(btnAddBalance, Color.YELLOW);
+        styleButton(btnAddBalance, 245, 191, 66); // Jaune
         btnAddBalance.addActionListener(e -> controller.addBalance());
         gridButtons.add(btnAddBalance);
 
@@ -79,13 +81,13 @@ public class InterfaceClientView extends JFrame {
         mainPanel.add(Box.createVerticalStrut(30));
 
         // Bouton "Retour à l'accueil" centré
-        btnBack = new FlatButton();
-        btnBack.setText("Retour à l'accueil");
-        styleButton(btnBack, Color.YELLOW);
-        btnBack.addActionListener(e -> controller.returnToMain());
-
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         bottomPanel.setOpaque(false);
+
+        btnBack = new FlatButton();
+        btnBack.setText("Retour à l'accueil");
+        styleButton(btnBack, 245, 191, 66); // Jaune
+        btnBack.addActionListener(e -> controller.returnToMain());
         bottomPanel.add(btnBack);
         mainPanel.add(bottomPanel);
 
@@ -102,10 +104,10 @@ public class InterfaceClientView extends JFrame {
     /**
      * Applique un style uniforme aux boutons.
      */
-    private void styleButton(FlatButton btn, Color bgColor) {
+    private void styleButton(FlatButton btn, int r, int g, int b) {
         btn.putClientProperty("JButton.buttonType", "roundRect");
         btn.setPreferredSize(new Dimension(140, 35));
-        btn.setBackground(bgColor);
+        btn.setBackground(new Color(r, g, b));
         btn.setForeground(Color.BLACK);
     }
 
@@ -132,10 +134,5 @@ public class InterfaceClientView extends JFrame {
                 g.drawImage(background, 0, 0, getWidth(), getHeight(), this);
             }
         }
-    }
-
-    public static void main(String[] args) {
-        InterfaceClientController controller = new InterfaceClientController(null, null);
-        new InterfaceClientView(controller);
     }
 }
