@@ -1,9 +1,11 @@
-// --- view/OrderPizzaView.java ---
 package rapizz.view;
 
 import rapizz.model.Point_Pizzaria;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.Objects;
+
 import com.formdev.flatlaf.FlatLightLaf;
 
 public class OrderPizzaView extends JFrame {
@@ -15,22 +17,50 @@ public class OrderPizzaView extends JFrame {
     private JButton btnQuit;
     private JButton btnOrder;
     private JTextArea txtSummary;
+    private BufferedImage backgroundImage;
 
     public OrderPizzaView(Point_Pizzaria model) {
-        super("Commander des Pizzas");
-        FlatLightLaf.setup();
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setSize(800, 450);
-        setLocationRelativeTo(null);
-        initComponents(model);
-        setVisible(true);
-    }
+            super("Commander des Pizzas");
+            setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            setSize(800, 450);
+            setLocationRelativeTo(null);
+
+            // Chargement de l'image de fond
+            ImageIcon originalIcon = null;
+            try {
+                originalIcon = new ImageIcon(Objects.requireNonNull(
+                        getClass().getResource("/rapizz/resources/Background_client.png")));
+            } catch (NullPointerException e) {
+                System.err.println("Erreur : l'image de fond est introuvable.");
+            }
+
+            setContentPane(new BackgroundPanel(originalIcon));
+            initComponents(model);
+            setVisible(true);
+        }
+
+        private class BackgroundPanel extends JPanel {
+            private final Image background;
+
+            public BackgroundPanel(ImageIcon icon) {
+                this.background = (icon != null) ? icon.getImage() : null;
+            }
+
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                if (background != null) {
+                    g.drawImage(background, 0, 0, getWidth(), getHeight(), this);
+                }
+            }
+        }
 
     private void initComponents(Point_Pizzaria model) {
         setLayout(new BorderLayout(10, 10));
 
-        // ← GAUCHE : sélection et boutons
+        // GAUCHE : sélection et boutons
         JPanel left = new JPanel(new GridBagLayout());
+        left.setOpaque(false);
         left.setBorder(BorderFactory.createTitledBorder("Sélection"));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(8, 8, 8, 8);
@@ -61,6 +91,7 @@ public class OrderPizzaView extends JFrame {
         // Livraison moto
         gbc.gridx = 0; gbc.gridy = ++y; gbc.gridwidth = 2;
         chkMoto = new JCheckBox("Livraison en moto (+2 €)");
+        chkMoto.setOpaque(false);
         left.add(chkMoto, gbc);
         gbc.gridwidth = 1;
 
@@ -75,8 +106,9 @@ public class OrderPizzaView extends JFrame {
 
         add(left, BorderLayout.WEST);
 
-        // ← DROITE : panier et Commander
+        // DROITE : panier et bouton commander
         JPanel right = new JPanel(new BorderLayout(10, 10));
+        right.setOpaque(false);
         right.setBorder(BorderFactory.createTitledBorder("Panier"));
 
         txtSummary = new JTextArea();
@@ -88,19 +120,29 @@ public class OrderPizzaView extends JFrame {
         btnOrder = new JButton("Commander");
         btnOrder.setEnabled(false);
         JPanel pnlBtn = new JPanel();
+        pnlBtn.setOpaque(false);
         pnlBtn.add(btnOrder);
         right.add(pnlBtn, BorderLayout.SOUTH);
 
         add(right, BorderLayout.CENTER);
     }
 
+
     // Getters
-    public JComboBox<String> getCbPizza()   { return cbPizza;   }
-    public JComboBox<String> getCbSize()    { return cbSize;    }
-    public JTextField getQtyField()         { return qtyField;  }
-    public JCheckBox getChkMoto()           { return chkMoto;   }
-    public JButton getBtnAdd()              { return btnAdd;    }
-    public JButton getBtnQuit()             { return btnQuit;   }
-    public JButton getBtnOrder()            { return btnOrder;  }
-    public JTextArea getTxtSummary()        { return txtSummary;}
+    public JComboBox<String> getCbPizza(){
+        return cbPizza;   }
+    public JComboBox<String> getCbSize(){
+        return cbSize;    }
+    public JTextField getQtyField(){
+        return qtyField;  }
+    public JCheckBox getChkMoto(){
+        return chkMoto;   }
+    public JButton getBtnAdd(){
+        return btnAdd;    }
+    public JButton getBtnQuit(){
+        return btnQuit;   }
+    public JButton getBtnOrder(){
+        return btnOrder;  }
+    public JTextArea getTxtSummary(){
+        return txtSummary;}
 }

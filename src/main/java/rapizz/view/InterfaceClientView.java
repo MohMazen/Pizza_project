@@ -54,7 +54,10 @@ public class InterfaceClientView extends JFrame {
         btnOrderPizza = new FlatButton();
         btnOrderPizza.setText("Commander une pizza");
         styleButton(btnOrderPizza, 245, 191, 66); // Jaune
-        btnOrderPizza.addActionListener(e -> controller.showOrderPizza());
+        btnOrderPizza.addActionListener(e -> {
+            controller.showOrderPizza();
+            dispose();
+        });
         gridButtons.add(btnOrderPizza);
 
         btnViewOrders = new FlatButton();

@@ -9,5 +9,5 @@
 [] backgroud pizza en contour
 [] lorsque l'on commende une pizza la page client reste ouverte
 [x] bouton retour a l'acceuil dans gestion ne marche pas
-[] voir solde dans ajouter solde
-[] chiffre d'affaire en dessous de la page gestion
+[x] voir solde dans ajouter solde
+[x] chiffre d'affaire en dessous de la page gestion

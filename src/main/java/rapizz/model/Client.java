@@ -33,10 +33,7 @@ public class Client {
 		return nom;
 	}
 
-	/**
-	 * Vérifie que le téléphone fait bien 10 chiffres.
-	 * @return 1 si valide, 0 sinon.
-	 */
+	 //Vérifie que le téléphone fait bien 10 chiffres
 	public int verifierNumeroTelephone() {
 		return (telephone != null && telephone.matches("\\d{10}")) ? 1 : 0;
 	}
@@ -48,12 +45,7 @@ public class Client {
 	public void approvisionner(double montant) {
 		solde += montant;
 	}
-
-	/**
-	 * Débite le compte du client.
-	 * @param montant Montant à débiter.
-	 * @return 1 si l’opération réussit, 0 si solde insuffisant.
-	 */
+	 //Débite le compte du client.
 	public int debiter(double montant) {
 		if (solde >= montant) {
 			solde -= montant;

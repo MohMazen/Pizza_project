@@ -1,15 +1,13 @@
-// File: src/rapizz/view/GestionRapizzView.java
 package rapizz.view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
+
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.extras.components.FlatButton;
 
-/**
- * Vue de gestion de l'application RaPizz.
- * Boutons à droite, Retour et Quitter centrés, tous 200x45.
- */
+
 public class GestionRapizzView extends JFrame {
     private FlatButton btnClients;
     private FlatButton btnRevenue;
@@ -30,37 +28,54 @@ public class GestionRapizzView extends JFrame {
     }
 
     private void initComponents() {
+        // Couleur de fond rouge (HSB: hue=0, saturation=1, brightness=1)
+        Color C_BACK = new Color(255, 156, 0, 255);
+
         JPanel mainPanel = new JPanel(new BorderLayout());
-        mainPanel.setBackground(Color.WHITE);
+        mainPanel.setBackground(C_BACK);
 
-        // Panel de droite : boutons principaux
-        JPanel rightPanel = new JPanel();
-        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-        rightPanel.setBackground(Color.WHITE);
-        rightPanel.setBorder(BorderFactory.createEmptyBorder(40, 20, 40, 40));
+        // Panel de boutons (vertical)
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+        buttonPanel.setBackground(C_BACK);
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(40, 20, 40, -100));
 
-        btnClients        = createButton("Voir Clients");
-        btnRevenue        = createButton("Chiffre d'Affaires");
-        btnStock          = createButton("Voir Stock");
-        btnAddIngredient  = createButton("Ajouter Ingrédient");
-        btnAddPizza       = createButton("Ajouter Pizza");
-        btnAddClient      = createButton("Ajouter Client");
+        btnClients        = createMainButton("Voir Clients");
+        btnRevenue        = createMainButton("Chiffre d'Affaires");
+        btnStock          = createMainButton("Voir Stock");
+        btnAddIngredient  = createMainButton("Ajouter Ingrédient");
+        btnAddPizza       = createMainButton("Ajouter Pizza");
+        btnAddClient      = createMainButton("Ajouter Client");
 
-        rightPanel.add(btnClients);
-        rightPanel.add(Box.createVerticalStrut(20));
-        rightPanel.add(btnRevenue);
-        rightPanel.add(Box.createVerticalStrut(20));
-        rightPanel.add(btnStock);
-        rightPanel.add(Box.createVerticalStrut(20));
-        rightPanel.add(btnAddIngredient);
-        rightPanel.add(Box.createVerticalStrut(20));
-        rightPanel.add(btnAddPizza);
-        rightPanel.add(Box.createVerticalStrut(20));
-        rightPanel.add(btnAddClient);
+        buttonPanel.add(btnClients);
+        buttonPanel.add(Box.createVerticalStrut(20));
+        buttonPanel.add(btnRevenue);
+        buttonPanel.add(Box.createVerticalStrut(20));
+        buttonPanel.add(btnStock);
+        buttonPanel.add(Box.createVerticalStrut(20));
+        buttonPanel.add(btnAddIngredient);
+        buttonPanel.add(Box.createVerticalStrut(20));
+        buttonPanel.add(btnAddPizza);
+        buttonPanel.add(Box.createVerticalStrut(20));
+        buttonPanel.add(btnAddClient);
+
+        // Chargement de l'image à droite
+        ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/rapizz/resources/logo2.png")));
+        Image scaledImage = icon.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH);
+        JLabel lblImage = new JLabel(new ImageIcon(scaledImage));
+
+        // Panel est (boutons + image)
+        JPanel eastPanel = new JPanel();
+        eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.X_AXIS));
+        eastPanel.setBackground(C_BACK);
+        eastPanel.setBorder(BorderFactory.createEmptyBorder(40, 20, 40, 60));
+        eastPanel.add(buttonPanel);
+        eastPanel.add(Box.createHorizontalStrut(30));
+        eastPanel.add(lblImage);
 
         // Panel bas : retour et quitter
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 40, 20));
-        bottomPanel.setBackground(Color.WHITE);
+        bottomPanel.setBackground(C_BACK);
 
         btnBack = createButton("Retour à l'accueil");
         btnQuit = createButton("Quitter");
@@ -68,15 +83,29 @@ public class GestionRapizzView extends JFrame {
         bottomPanel.add(btnBack);
         bottomPanel.add(btnQuit);
 
-        mainPanel.add(rightPanel, BorderLayout.EAST);
+        mainPanel.add(eastPanel, BorderLayout.WEST);
         mainPanel.add(bottomPanel, BorderLayout.SOUTH);
         getContentPane().add(mainPanel);
     }
 
+    /**
+     * Crée un FlatButton pour les boutons principaux (largeur commune).
+     */
+    private FlatButton createMainButton(String text) {
+        FlatButton btn = new FlatButton();
+        btn.setText(text);
+        btn.setPreferredSize(new Dimension(250, 60));
+        btn.putClientProperty("JButton.buttonType", "roundRect");
+        return btn;
+    }
+
+    /**
+     * Crée un FlatButton pour les boutons secondaires (même largeur, hauteur originale).
+     */
     private FlatButton createButton(String text) {
         FlatButton btn = new FlatButton();
         btn.setText(text);
-        btn.setPreferredSize(new Dimension(200, 45)); // même taille pour tous
+        btn.setPreferredSize(new Dimension(250, 45));
         btn.putClientProperty("JButton.buttonType", "roundRect");
         return btn;
     }

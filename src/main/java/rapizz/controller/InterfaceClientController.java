@@ -27,6 +27,7 @@ public class InterfaceClientController {
     public void showOrderPizza() {
         // Instancie OrderPizzaController qui crée et affiche OrderPizzaView
         new OrderPizzaController(pizzeria, client);
+        view.dispose();
     }
 
     /** Affiche un récapitulatif des commandes du client. */
