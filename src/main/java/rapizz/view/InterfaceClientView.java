@@ -112,6 +112,7 @@ public class InterfaceClientView extends JFrame {
         btn.setPreferredSize(new Dimension(140, 35));
         btn.setBackground(new Color(r, g, b));
         btn.setForeground(Color.BLACK);
+        btn.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, true)); // Bordure noire arrondie
     }
 
     /**

@@ -96,6 +96,9 @@ public class GestionRapizzView extends JFrame {
         btn.setText(text);
         btn.setPreferredSize(new Dimension(250, 60));
         btn.putClientProperty("JButton.buttonType", "roundRect");
+        btn.setBackground(new Color(255, 0, 0));
+        btn.setForeground(Color.BLACK);
+        btn.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1)); // Bordure noire
         return btn;
     }
 
@@ -107,6 +110,9 @@ public class GestionRapizzView extends JFrame {
         btn.setText(text);
         btn.setPreferredSize(new Dimension(250, 45));
         btn.putClientProperty("JButton.buttonType", "roundRect");
+        btn.setBackground(new Color(255, 0, 0));
+        btn.setForeground(Color.BLACK);
+        btn.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1)); // Bordure noire
         return btn;
     }
 

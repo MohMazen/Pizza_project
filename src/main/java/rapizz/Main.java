@@ -23,7 +23,7 @@ public class Main {
         reine.addIngredient(new Ingredient("Jambon", 1));
         pz.ajouterPizza(reine);
 
-        Client alice = new Client("0612345678", "Alice", "12 avenue des Champs", 50.0, pz);
+        Client alice = new Client("0698775432", "Alice", "12 avenue des Champs", 50.0, pz);
         Client bob   = new Client("0698765432", "Bob",   "34 boulevard Saint-Germain", 30.0, pz);
         pz.ajouterClient(alice);
         pz.ajouterClient(bob);
