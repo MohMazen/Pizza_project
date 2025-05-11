@@ -1,12 +1,7 @@
-// File: Client.java
 package rapizz.model;
 
 import java.util.Vector;
 
-/**
- * Représente un client identifié par son téléphone,
- * avec son solde prépayé et son historique de commandes.
- */
 public class Client {
 	private String telephone;
 	private String nom;
@@ -14,9 +9,7 @@ public class Client {
 	private double solde;
 	private Vector<Commande> commandes = new Vector<>();
 
-    /**
-	 * Initialise un client abonné à un point Pizzaria.
-	 */
+	// --- Constructeur ---
 	public Client(String telephone, String nom, String adresse, double solde, Point_Pizzaria pizzaria) {
 		this.telephone = telephone;
 		this.nom = nom;
@@ -33,19 +26,15 @@ public class Client {
 		return nom;
 	}
 
-	 //Vérifie que le téléphone fait bien 10 chiffres
-	public int verifierNumeroTelephone() {
-		return (telephone != null && telephone.matches("\\d{10}")) ? 1 : 0;
-	}
-
 	public double getSolde() {
 		return solde;
 	}
 
+	// --- méthodes ---
 	public void approvisionner(double montant) {
 		solde += montant;
 	}
-	 //Débite le compte du client.
+
 	public int debiter(double montant) {
 		if (solde >= montant) {
 			solde -= montant;

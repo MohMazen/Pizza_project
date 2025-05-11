@@ -6,8 +6,9 @@
 [x] pizzeria gère ajoute client, pizza, ingrédients
 [x]verifier vector pas bon
 [x]utiliser showMessageDialog pour l'interface gestion
-[] backgroud pizza en contour
-[] lorsque l'on commende une pizza la page client reste ouverte
+[x] backgroud pizza en contour
+[x] lorsque l'on commende une pizza la page client reste ouverte
 [x] bouton retour a l'acceuil dans gestion ne marche pas
 [x] voir solde dans ajouter solde
 [x] chiffre d'affaire en dessous de la page gestion
+[] ajouter enregiste;ent des donn2e

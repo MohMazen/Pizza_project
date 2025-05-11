@@ -1,9 +1,7 @@
 // File: Ligne_Com.java
 package rapizz.model;
 
-/**
- * Représente une ligne de commande : une pizza, sa taille et la quantité.
- */
+
 public class Ligne_Com {
 	private Commande commande;
 	private Pizza pizza;
@@ -50,19 +48,13 @@ public class Ligne_Com {
 		this.quantite = quantite;
 	}
 
-	/**
-	 * Marque cette ligne comme gratuite (reste à livrer : 0 pizza).
-	 */
 	public void setGratuite() {
 		this.quantite = 0;
 		this.pizza    = null;
 		this.taille   = null;
 	}
 
-	/**
-	 * Indique si la ligne a été entièrement livrée (quantité à 0).
-	 * @return 1 si gratuite, 0 sinon.
-	 */
+	// --- Méthodes ---
 	public int isLivree() {
 		return (this.quantite == 0) ? 1 : 0;
 	}

@@ -1,18 +1,13 @@
-// File: Pizza.java
 package rapizz.model;
 
 import java.util.Vector;
 
-/**
- * Modélise une pizza définie par un nom, un prix de base
- * et une liste d’ingrédients.
- */
 public class Pizza {
 	private String nom;
 	private double prixBase;
 	private Vector<Ingredient> ingredients = new Vector<>();
 
-	/** Initialise le nom et le prix de base de la pizza. */
+	// --- Constructeurs ---
 	public Pizza(String nom, double prixBase) {
 		this.nom = nom;
 		this.prixBase = prixBase;
@@ -39,7 +34,7 @@ public class Pizza {
 		return ingredients;
 	}
 
-
+	// --- Méthodes ---
 	public void addIngredient(Ingredient ing) {
 		ingredients.add(ing);
 	}
