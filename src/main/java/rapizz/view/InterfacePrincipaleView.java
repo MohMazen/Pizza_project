@@ -88,7 +88,7 @@ public class InterfacePrincipaleView extends JFrame {
         button.setPreferredSize(size);
         button.setBackground(bgColor);
         button.setForeground(Color.BLACK);
-        button.setFont(new Font("SansSerif", Font.PLAIN, 16));
+        button.setFont(new Font("SansSerif", Font.PLAIN, 20));
         button.setFocusPainted(false);
         button.setBorderPainted(false);
     }

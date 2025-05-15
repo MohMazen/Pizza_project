@@ -60,7 +60,7 @@ public class AddClientView extends JFrame {
         gbc.gridy = 4; gbc.gridwidth = 2;
         panel.add(btnBack, gbc);
 
-        getContentPane().add(panel);        // ajout du panel au frame
+        getContentPane().add(panel);
     }
 
     // Getters pour le contrôleur

@@ -26,19 +26,20 @@ public class LoginView extends JFrame {
 
     private void initComponents() {
         JPanel panel = getJPanel();
+        panel.setBorder(BorderFactory.createEmptyBorder(150, 0, 0, 0)); // Ajout d'un espace en haut
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 0, 10, 0);
+        gbc.insets = new Insets(10, 20, 10, 20);
         gbc.anchor = GridBagConstraints.CENTER;
 
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
         JLabel label = new JLabel("Connexion Client");
-        label.setFont(new Font("Arial", Font.BOLD, 16));
+        label.setFont(new Font("Arial", Font.BOLD, 24));
         panel.add(label, gbc);
 
         gbc.gridy = 1;
-        phoneField = new JTextField(15);
+        phoneField = new JTextField(20);
         phoneField.setToolTipText("Entrez votre numéro de téléphone");
         panel.add(phoneField, gbc);
 
