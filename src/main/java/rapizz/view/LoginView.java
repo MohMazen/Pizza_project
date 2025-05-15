@@ -18,7 +18,7 @@ public class LoginView extends JFrame {
         FlatLightLaf.setup();
         setTitle("RaPizz - Connexion");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(400, 350);
+        setSize(450, 550);
         setLocationRelativeTo(null);
         initComponents();
         setVisible(true);
@@ -27,7 +27,7 @@ public class LoginView extends JFrame {
     private void initComponents() {
         JPanel panel = getJPanel();
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.insets = new Insets(10, 0, 10, 0);
         gbc.anchor = GridBagConstraints.CENTER;
 
         gbc.gridx = 0;
@@ -59,7 +59,7 @@ public class LoginView extends JFrame {
 
     private JPanel getJPanel() {
         // Chargement de l’image via le classpath
-        Image bgImage = new ImageIcon(getClass().getResource("/rapizz/resources/Background_pizza.png")).getImage();
+        Image bgImage = new ImageIcon(getClass().getResource("/rapizz/resources/inscription_client.png")).getImage();
 
         JPanel panel = new JPanel(new GridBagLayout()) {
             @Override

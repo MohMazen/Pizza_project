@@ -5,18 +5,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 
-import com.formdev.flatlaf.FlatLightLaf;
-import com.formdev.flatlaf.extras.components.FlatButton;
-
-/**
- * Vue principale de l'application, avec image de fond redimensionnée et boutons centrés.
- */
 public class InterfacePrincipaleView extends JFrame {
     private final InterfacePrincipaleController controller;
 
     public InterfacePrincipaleView(InterfacePrincipaleController controller) {
         this.controller = controller;
-        FlatLightLaf.setup();
         setTitle("RaPizz - Menu Principal");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(800, 600);
@@ -29,19 +22,10 @@ public class InterfacePrincipaleView extends JFrame {
         // Chargement de l'image de fond
         JPanel backgroundPanel = getJPanel();
 
-        // Chargement du logo via le classpath
-        ImageIcon originalIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/rapizz/resources/logo.png")));
-        Image scaledImage = originalIcon.getImage().getScaledInstance(300, 160, Image.SCALE_SMOOTH);
-        ImageIcon scaledIcon = new ImageIcon(scaledImage);
-        JLabel logoLabel = new JLabel(scaledIcon);
-        logoLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        logoLabel.setBorder(BorderFactory.createEmptyBorder(100, 0, 50, 0));
-        backgroundPanel.add(logoLabel, BorderLayout.NORTH);
-
         // Panel central pour centrer les boutons
         JPanel centerPanel = new JPanel(new GridBagLayout());
         centerPanel.setOpaque(false);
-        centerPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 90, 0));
+        centerPanel.setBorder(BorderFactory.createEmptyBorder(250, 0, 0, 0));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.anchor = GridBagConstraints.CENTER;
@@ -51,17 +35,13 @@ public class InterfacePrincipaleView extends JFrame {
         JPanel topButtons = new JPanel(new FlowLayout(FlowLayout.CENTER, 50, 0));
         topButtons.setOpaque(false);
 
-        FlatButton loginButton = new FlatButton();
-        loginButton.setText("Connexion Client");
-        styleButton(loginButton, new Dimension(150, 40), new Color(255, 34, 34));
-        loginButton.setForeground(Color.BLACK);
+        JButton loginButton = new JButton("Connexion Client");
+        styleButton(loginButton, new Dimension(250, 100), new Color(183, 31, 3));
         loginButton.addActionListener(e -> { controller.showLogin(); dispose(); });
         topButtons.add(loginButton);
 
-        FlatButton gestionButton = new FlatButton();
-        gestionButton.setText("Gestion Pizzeria");
-        styleButton(gestionButton, new Dimension(150, 40), new Color(76, 175, 80));
-        gestionButton.setForeground(Color.BLACK);
+        JButton gestionButton = new JButton("Gestion Pizzeria");
+        styleButton(gestionButton, new Dimension(250, 100), new Color(183, 31, 3));
         gestionButton.addActionListener(e -> { controller.showGestion(); dispose(); });
         topButtons.add(gestionButton);
 
@@ -69,10 +49,8 @@ public class InterfacePrincipaleView extends JFrame {
         centerPanel.add(topButtons, gbc);
 
         // Bouton Quitter
-        FlatButton quitButton = new FlatButton();
-        quitButton.setText("Quitter");
-        styleButton(quitButton, new Dimension(150, 40), new Color(255, 255, 255));
-        quitButton.setForeground(Color.BLACK);
+        JButton quitButton = new JButton("Quitter");
+        styleButton(quitButton, new Dimension(150, 40), new Color(183, 31, 3));
         quitButton.addActionListener(e -> controller.exitApplication());
         gbc.gridy = 1;
         centerPanel.add(quitButton, gbc);
@@ -106,11 +84,12 @@ public class InterfacePrincipaleView extends JFrame {
     }
 
     // Méthode utilitaire pour styliser un bouton
-    private void styleButton(FlatButton button, Dimension size, Color bgColor) {
+    private void styleButton(JButton button, Dimension size, Color bgColor) {
         button.setPreferredSize(size);
         button.setBackground(bgColor);
         button.setForeground(Color.BLACK);
         button.setFont(new Font("SansSerif", Font.PLAIN, 16));
+        button.setFocusPainted(false);
         button.setBorderPainted(false);
     }
 }

@@ -1,7 +1,5 @@
 package rapizz.view;
 
-import com.formdev.flatlaf.FlatLightLaf;
-import com.formdev.flatlaf.extras.components.FlatButton;
 import javax.swing.*;
 import java.awt.*;
 
@@ -12,12 +10,11 @@ public class AddClientView extends JFrame {
     private JTextField nameField;
     private JTextField addressField;
     private JTextField phoneField;
-    private FlatButton btnAdd;
-    private FlatButton btnBack;
+    private JButton btnAdd;
+    private JButton btnBack;
 
     public AddClientView() {
         super("Ajouter Client");
-        FlatLightLaf.setup();
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         pack();                             // taille adaptée au contenu
@@ -52,15 +49,13 @@ public class AddClientView extends JFrame {
         panel.add(phoneField, gbc);
 
         // Bouton Ajouter
-        btnAdd = new FlatButton();
-        btnAdd.setText("Ajouter");
+        btnAdd = new JButton("Ajouter");
         btnAdd.setPreferredSize(new Dimension(100, 30));
         gbc.gridx = 0; gbc.gridy = 3; gbc.gridwidth = 2; gbc.anchor = GridBagConstraints.CENTER;
         panel.add(btnAdd, gbc);
 
         // Bouton Retour
-        btnBack = new FlatButton();
-        btnBack.setText("Retour");
+        btnBack = new JButton("Retour");
         btnBack.setPreferredSize(new Dimension(100, 30));
         gbc.gridy = 4; gbc.gridwidth = 2;
         panel.add(btnBack, gbc);
@@ -72,6 +67,6 @@ public class AddClientView extends JFrame {
     public JTextField getNameField()    { return nameField;    }
     public JTextField getAddressField() { return addressField; }
     public JTextField getPhoneField()   { return phoneField;   }
-    public FlatButton getBtnAdd()       { return btnAdd;       }
-    public FlatButton getBtnBack()      { return btnBack;      }
+    public JButton getBtnAdd()          { return btnAdd;       }
+    public JButton getBtnBack()         { return btnBack;      }
 }
