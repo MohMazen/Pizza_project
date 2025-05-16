@@ -28,11 +28,11 @@ public class GestionRapizzView extends JFrame {
         JPanel backgroundPanel = getBackgroundPanel();
         backgroundPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 20, 20, 20); // Espacement entre les composants
+        gbc.insets = new Insets(200, 0, 0, 0);
 
         // Panel pour les boutons principaux (2x3)
-        JPanel mainButtonPanel = new JPanel(new GridLayout(2, 3, 20, 20));
-        mainButtonPanel.setOpaque(false); // Rendre transparent pour voir l'image de fond
+        JPanel mainButtonPanel = new JPanel(new GridLayout(2, 3, 5, 5));
+        mainButtonPanel.setOpaque(false);
 
         btnClients = createButton("Voir Clients");
         btnRevenue = createButton("Chiffre d'Affaires");
@@ -48,14 +48,13 @@ public class GestionRapizzView extends JFrame {
         mainButtonPanel.add(btnAddPizza);
         mainButtonPanel.add(btnAddClient);
 
-        // Positionner le panel des boutons principaux
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.CENTER;
         backgroundPanel.add(mainButtonPanel, gbc);
 
         // Panel pour les boutons "Retour" et "Quitter"
-        JPanel bottomButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 40, 20));
+        JPanel bottomButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 20));
         bottomButtonPanel.setOpaque(false); // Rendre transparent pour voir l'image de fond
 
         btnBack = createButton("Retour à l'accueil");
@@ -64,8 +63,8 @@ public class GestionRapizzView extends JFrame {
         bottomButtonPanel.add(btnBack);
         bottomButtonPanel.add(btnQuit);
 
-        // Positionner le panel des boutons "Retour" et "Quitter"
-        gbc.gridy = 1; // Placer en dessous des autres boutons
+        gbc.gridy = 1;
+        gbc.insets = new Insets(20, 0, 0, 0);
         backgroundPanel.add(bottomButtonPanel, gbc);
 
         setContentPane(backgroundPanel);
@@ -87,10 +86,10 @@ public class GestionRapizzView extends JFrame {
 
   private JButton createButton(String text) {
       JButton btn = new JButton(text);
-      btn.setPreferredSize(new Dimension(300, 100)); // Taille augmentée
+      btn.setPreferredSize(new Dimension(100, 100));
       btn.setBackground(new Color(255, 0, 0));
       btn.setForeground(Color.BLACK);
-      btn.setFont(new Font("SansSerif", Font.BOLD, 16)); // Police agrandie
+      btn.setFont(new Font("SansSerif", Font.BOLD, 16));
       btn.setFocusPainted(false);
       btn.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
       return btn;
