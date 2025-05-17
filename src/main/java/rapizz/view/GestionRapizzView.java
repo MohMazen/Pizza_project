@@ -84,16 +84,19 @@ public class GestionRapizzView extends JFrame {
       };
   }
 
-  private JButton createButton(String text) {
-      JButton btn = new JButton(text);
-      btn.setPreferredSize(new Dimension(100, 100));
-      btn.setBackground(new Color(255, 0, 0));
-      btn.setForeground(Color.BLACK);
-      btn.setFont(new Font("SansSerif", Font.BOLD, 16));
-      btn.setFocusPainted(false);
-      btn.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-      return btn;
-  }
+    private JButton createButton(String text) {
+        JButton btn = new JButton(text);
+        if (text.equals("Quitter") || text.equals("Retour à l'accueil")) {
+            btn.setPreferredSize(new Dimension(200, 60));
+        } else {
+            btn.setPreferredSize(new Dimension(200, 60));
+        }
+        btn.setBackground(new Color(183, 31, 3));
+        btn.setForeground(Color.BLACK);
+        btn.setFont(new Font("SansSerif", Font.BOLD, 16));
+        btn.setFocusPainted(false);
+        return btn;
+    }
 
   // Getters pour le contrôleur
   public JButton getBtnClients() { return btnClients; }
