@@ -6,7 +6,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Objects;
 
-import com.formdev.flatlaf.FlatLightLaf;
 
 public class OrderPizzaView extends JFrame {
     private JComboBox<String> cbPizza;
