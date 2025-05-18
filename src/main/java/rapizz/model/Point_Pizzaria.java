@@ -219,12 +219,13 @@ public class Point_Pizzaria {
                 timerStr = "00:00";
             }
 
+            // Utilisation de calculPrixTotal()
             sb.append("Commande n°").append(cmd.getId())
-              .append(" – Total : ").append(cmd.calculPrixTotal()).append(" €")
-              .append(cmd.isGratuite() == 1 ? " (gratuite)" : "")
-              .append(" – Véhicule : ").append(cmd.getVehicule())
-              .append(" – Temps restant : ").append(timerStr)
-              .append("\n");
+                    .append(" – Total : ").append(cmd.calculPrixTotal()).append(" €")
+                    .append(cmd.isGratuite() == 1 ? " (gratuite)" : "")
+                    .append(" – Véhicule : ").append(cmd.getVehicule())
+                    .append(" – Temps restant : ").append(timerStr)
+                    .append("\n");
         }
         return sb.toString();
     }

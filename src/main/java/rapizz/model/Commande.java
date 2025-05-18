@@ -77,9 +77,10 @@ public class Commande {
         double total = calculPrixTotalRaw();
         int totalPizzas = getQuantite();
         if (totalPizzas >= LIMITE_GRATUITE) {
-            // Offre : la pizza la moins chère gratuite (ici la première)
             total -= lignes.get(0).getPizza().getPrixBase();
         }
+
+        total = Math.round(total * 100.0) / 100.0;
         return Math.max(0, total);
     }
 

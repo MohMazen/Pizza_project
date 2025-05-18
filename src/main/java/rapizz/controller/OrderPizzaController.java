@@ -1,15 +1,16 @@
-// src/rapizz/controller/OrderPizzaController.java
 package rapizz.controller;
 
 import rapizz.model.Point_Pizzaria;
 import rapizz.model.Pizza;
 import rapizz.model.Client;
+import rapizz.model.Commande;
 import rapizz.view.OrderPizzaView;
 
 import javax.swing.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,7 +23,6 @@ public class OrderPizzaController {
     InterfaceClientController parentController;
 
     List<OrderLine> orderLines = new ArrayList<>();
-    BigDecimal totalOrder = BigDecimal.ZERO;
     static final double DELIVERY_FEE_MOTO = 2.0;
 
     private static class OrderLine {
@@ -44,11 +44,6 @@ public class OrderPizzaController {
         }
     }
 
-    /**
-     * @param model le modèle de la pizzeria
-     * @param client le client en cours
-     * @param parentController le contrôleur de l'espace client pour pouvoir revenir en arrière
-     */
     public OrderPizzaController(Point_Pizzaria model, Client client, InterfaceClientController parentController) {
         this.model = model;
         this.client = client;
@@ -90,29 +85,37 @@ public class OrderPizzaController {
         boolean merged = false;
         for (OrderLine line : orderLines) {
             if (line.nomPizza.equals(nomPizza) && line.taille.equals(taille)) {
-                totalOrder = totalOrder.subtract(line.lineTotal);
                 line.addQuantity(qty);
-                totalOrder = totalOrder.add(line.lineTotal);
                 merged = true;
                 break;
             }
         }
         if (!merged) {
-            OrderLine newLine = new OrderLine(nomPizza, taille, qty, unitPrice);
-            orderLines.add(newLine);
-            totalOrder = totalOrder.add(newLine.lineTotal);
+            orderLines.add(new OrderLine(nomPizza, taille, qty, unitPrice));
         }
 
         view.getQtyField().setText("");
         updateSummary();
-        // Activation / désactivation du bouton Commander selon le solde
-        view.getBtnOrder().setEnabled(
-                client.getSolde() >= totalOrder.add(BigDecimal.valueOf(getDeliveryFee())).doubleValue()
-        );
+        double total = calculateOrderTotal() + getDeliveryFee();
+        view.getBtnOrder().setEnabled(client.getSolde() >= total);
     }
 
     private double getDeliveryFee() {
         return view.getChkMoto().isSelected() ? DELIVERY_FEE_MOTO : 0.0;
+    }
+
+    private double calculateOrderTotal() {
+        if (orderLines.isEmpty()) return 0.0;
+        // Création d'une commande temporaire pour bénéficier du calcul de prix
+        OrderLine first = orderLines.get(0);
+        Pizza p = model.getPizzaParNom(first.nomPizza);
+        Commande temp = new Commande(0, client, p, first.taille, first.qty, new Date());
+        for (int i = 1; i < orderLines.size(); i++) {
+            OrderLine l = orderLines.get(i);
+            p = model.getPizzaParNom(l.nomPizza);
+            temp.AjouterLigne(p, l.taille, l.qty);
+        }
+        return temp.calculPrixTotal();
     }
 
     private void updateSummary() {
@@ -126,7 +129,8 @@ public class OrderPizzaController {
         if (fee > 0) {
             sb.append(String.format("Frais livraison (moto) = %.2f €%n%n", fee));
         }
-        sb.append(String.format("Total = %.2f €", totalOrder.add(BigDecimal.valueOf(fee)).doubleValue()));
+        double total = calculateOrderTotal() + fee;
+        sb.append(String.format("Total = %.2f €", total));
         view.getTxtSummary().setText(sb.toString());
     }
 
@@ -135,7 +139,6 @@ public class OrderPizzaController {
             JOptionPane.showMessageDialog(view, "Aucune pizza dans le panier", "Erreur", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        // confirmation
         JOptionPane.showMessageDialog(
                 view,
                 view.getTxtSummary().getText(),
@@ -164,13 +167,13 @@ public class OrderPizzaController {
                 JOptionPane.INFORMATION_MESSAGE
         );
 
-        // Au lieu de fermer, on cache la fenêtre et on revient au menu client
+        orderLines.clear();
+        view.getTxtSummary().setText("");
         view.setVisible(false);
         parentController.showClientView();
     }
 
     private void onQuit() {
-        // Cache la fenêtre de commande et réaffiche le menu client
         view.setVisible(false);
         parentController.showClientView();
     }
