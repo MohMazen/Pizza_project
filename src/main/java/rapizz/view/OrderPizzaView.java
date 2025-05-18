@@ -36,6 +36,14 @@ public class OrderPizzaView extends JFrame {
             setContentPane(new BackgroundPanel(originalIcon));
             initComponents(model);
             setVisible(true);
+
+
+            addWindowListener(new java.awt.event.WindowAdapter() {
+                @Override
+                public void windowClosing(java.awt.event.WindowEvent e) {
+                    setVisible(true);
+                }
+            });
         }
 
         private class BackgroundPanel extends JPanel {
@@ -53,6 +61,7 @@ public class OrderPizzaView extends JFrame {
                 }
             }
         }
+
 
     private void initComponents(Point_Pizzaria model) {
         setLayout(new BorderLayout(10, 10));

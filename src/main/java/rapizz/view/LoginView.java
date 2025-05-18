@@ -80,7 +80,7 @@ public class LoginView extends JFrame {
         String phone = phoneField.getText().trim();
         Client client = controller.getClient(phone);
         if (client != null) {
-            new InterfaceClientView(new InterfaceClientController(controller.getPizzeria(), client)).setVisible(true);
+            new InterfaceClientController(controller.getPizzeria(), client);
             dispose();
         } else {
             JOptionPane.showMessageDialog(

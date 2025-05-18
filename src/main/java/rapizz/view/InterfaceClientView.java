@@ -1,125 +1,100 @@
+// src/rapizz/view/InterfaceClientView.java
 package rapizz.view;
 
-    import com.formdev.flatlaf.FlatLightLaf;
-    import com.formdev.flatlaf.extras.components.FlatButton;
-    import rapizz.controller.InterfaceClientController;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
-    import javax.imageio.ImageIO;
-    import javax.swing.*;
-    import java.awt.*;
-    import java.io.File;
-    import java.io.IOException;
+public class InterfaceClientView extends JFrame {
+    private JButton btnOrderPizza;
+    private JButton btnViewOrders;
+    private JButton btnViewBalance;
+    private JButton btnAddBalance;
+    private JButton btnBack;
 
-    public class InterfaceClientView extends JFrame {
-        private FlatButton btnOrderPizza;
-        private FlatButton btnViewOrders;
-        private FlatButton btnViewBalance;
-        private FlatButton btnAddBalance;
-        private FlatButton btnBack;
+    public InterfaceClientView() {
+        super("RaPizz - Espace Client");
 
-        public InterfaceClientView(InterfaceClientController controller) {
-            super("RaPizz - Espace Client");
-            FlatLightLaf.setup();
+        // Fond
+        BackgroundPanel background = new BackgroundPanel("src/main/resources/rapizz/resources/Background_pizza.png");
+        background.setLayout(new BorderLayout());
+        setContentPane(background);
 
-            // Panneau de fond avec une image
-            BackgroundPanel background = new BackgroundPanel("src/main/resources/rapizz/resources/Background_pizza.png");
-            background.setLayout(new BorderLayout());
-            setContentPane(background);
+        // Conteneur principal
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setOpaque(false);
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(300, 30, 20, 30));
 
-            // Panneau principal vertical
-            JPanel mainPanel = new JPanel();
-            mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-            mainPanel.setOpaque(false);
-            mainPanel.setBorder(BorderFactory.createEmptyBorder(300, 30, 20, 30));
+        // Grille 2×2
+        JPanel grid = new JPanel(new GridLayout(2, 2, 30, 20));
+        grid.setOpaque(false);
 
-            // Panneau 2x2 pour les 4 boutons
-            JPanel gridButtons = new JPanel(new GridLayout(2, 2, 30, 20));
-            gridButtons.setOpaque(false);
+        btnOrderPizza = new JButton("Commander une pizza");
+        styleButton(btnOrderPizza);
+        grid.add(btnOrderPizza);
 
-            btnOrderPizza = new FlatButton();
-            btnOrderPizza.setText("Commander une pizza");
-            styleButton(btnOrderPizza, 245, 191, 66); // Jaune
-            btnOrderPizza.addActionListener(e -> {
-                controller.showOrderPizza();
-                dispose();
-            });
-            gridButtons.add(btnOrderPizza);
+        btnViewOrders = new JButton("Voir mes commandes");
+        styleButton(btnViewOrders);
+        grid.add(btnViewOrders);
 
-            btnViewOrders = new FlatButton();
-            btnViewOrders.setText("Voir mes commandes");
-            styleButton(btnViewOrders, 245, 191, 66); // Jaune
-            btnViewOrders.addActionListener(e -> controller.showOrders());
-            gridButtons.add(btnViewOrders);
+        btnViewBalance = new JButton("Voir mon solde");
+        styleButton(btnViewBalance);
+        grid.add(btnViewBalance);
 
-            btnViewBalance = new FlatButton();
-            btnViewBalance.setText("Voir mon solde");
-            styleButton(btnViewBalance, 245, 191, 66); // Jaune
-            btnViewBalance.addActionListener(e -> controller.showBalance());
-            gridButtons.add(btnViewBalance);
+        btnAddBalance = new JButton("Ajouter au solde");
+        styleButton(btnAddBalance);
+        grid.add(btnAddBalance);
 
-            btnAddBalance = new FlatButton();
-            btnAddBalance.setText("Ajouter au solde");
-            styleButton(btnAddBalance, 245, 191, 66); // Jaune
-            btnAddBalance.addActionListener(e -> controller.addBalance());
-            gridButtons.add(btnAddBalance);
+        mainPanel.add(grid);
+        mainPanel.add(Box.createVerticalStrut(30));
 
-            mainPanel.add(gridButtons);
+        // Bouton retour
+        JPanel bottom = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        bottom.setOpaque(false);
+        btnBack = new JButton("Accueil");
+        styleButton(btnBack);
+        bottom.add(btnBack);
+        mainPanel.add(bottom);
 
-            // Espacement vertical entre la grille et le bouton retour
-            mainPanel.add(Box.createVerticalStrut(30));
+        background.add(mainPanel, BorderLayout.CENTER);
 
-            // Bouton "Retour à l'accueil" centré
-            JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-            bottomPanel.setOpaque(false);
+        pack();
+        setSize(800,600);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+    }
 
-            btnBack = new FlatButton();
-            btnBack.setText("Accueil");
-            styleButton(btnBack, 245, 191, 66); // Jaune
-            btnBack.addActionListener(e -> controller.returnToMain());
-            bottomPanel.add(btnBack);
-            mainPanel.add(bottomPanel);
+    private void styleButton(JButton b) {
+        b.setPreferredSize(new Dimension(140,35));
+        b.setBackground(new Color(245,191,66));
+        b.setOpaque(true);
+        b.setContentAreaFilled(true);
+        b.setForeground(Color.BLACK);
+        b.setFont(new Font("SansSerif", Font.BOLD, 18));
+        b.setBorder(BorderFactory.createLineBorder(Color.BLACK,2,true));
+    }
 
-            // Ajout au fond
-            background.add(mainPanel, BorderLayout.CENTER);
+    // === Getters pour le contrôleur ===
+    public JButton getBtnOrderPizza()  { return btnOrderPizza;  }
+    public JButton getBtnViewOrders()  { return btnViewOrders;  }
+    public JButton getBtnViewBalance() { return btnViewBalance; }
+    public JButton getBtnAddBalance()  { return btnAddBalance;  }
+    public JButton getBtnBack()        { return btnBack;       }
 
-            pack();
-            setSize(800, 600);
-            setLocationRelativeTo(null);
-            setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-            setVisible(true);
+    // Panneau de fond
+    private static class BackgroundPanel extends JPanel {
+        private Image background;
+        public BackgroundPanel(String path) {
+            try { background = ImageIO.read(new File(path)); }
+            catch (IOException e) { System.err.println("Fond introuvable : "+path); }
         }
-
-        private void styleButton(FlatButton btn, int r, int g, int b) {
-            btn.putClientProperty("JButton.buttonType", "roundRect");
-            btn.setPreferredSize(new Dimension(140, 35));
-            btn.setBackground(new Color(r, g, b));
-            btn.setForeground(Color.BLACK);
-            btn.setFont(new Font("SansSerif", Font.BOLD, 18)); // Taille de police augmentée
-            btn.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, true)); // Bordure noire arrondie
-        }
-
-        /**
-         * Panneau personnalisé pour dessiner une image de fond.
-         */
-        private static class BackgroundPanel extends JPanel {
-            private Image background;
-
-            public BackgroundPanel(String imagePath) {
-                if (imagePath != null) {
-                    try {
-                        background = ImageIO.read(new File(imagePath));
-                    } catch (IOException e) {
-                        System.err.println("Impossible de charger l'image de fond : " + imagePath);
-                    }
-                }
-            }
-
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                if (background != null) {
-                    g.drawImage(background, 0, 0, getWidth(), getHeight(), this);
-                }
-            }
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            if (background!=null) g.drawImage(background,0,0,getWidth(),getHeight(),this);
         }
     }
+}

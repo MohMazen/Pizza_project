@@ -1,10 +1,9 @@
+// src/rapizz/controller/OrderPizzaController.java
 package rapizz.controller;
 
 import rapizz.model.Point_Pizzaria;
 import rapizz.model.Pizza;
 import rapizz.model.Client;
-import rapizz.view.InterfaceClientView;
-import rapizz.view.InterfacePrincipaleView;
 import rapizz.view.OrderPizzaView;
 
 import javax.swing.*;
@@ -13,15 +12,18 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Contrôleur pour la prise de commande de pizzas.
+ */
 public class OrderPizzaController {
-    private final Point_Pizzaria model;
-    private final Client client;
-    private final OrderPizzaView view;
+    Point_Pizzaria model;
+    Client client;
+    OrderPizzaView view;
+    InterfaceClientController parentController;
 
-    private final List<OrderLine> orderLines = new ArrayList<>();
-    private BigDecimal totalOrder = BigDecimal.ZERO;
-    private static final double DELIVERY_FEE_MOTO = 2.0;
-    private LoginController controller;
+    List<OrderLine> orderLines = new ArrayList<>();
+    BigDecimal totalOrder = BigDecimal.ZERO;
+    static final double DELIVERY_FEE_MOTO = 2.0;
 
     private static class OrderLine {
         String nomPizza, taille;
@@ -42,33 +44,36 @@ public class OrderPizzaController {
         }
     }
 
-    public OrderPizzaController(Point_Pizzaria model, Client client) {
+    /**
+     * @param model le modèle de la pizzeria
+     * @param client le client en cours
+     * @param parentController le contrôleur de l'espace client pour pouvoir revenir en arrière
+     */
+    public OrderPizzaController(Point_Pizzaria model, Client client, InterfaceClientController parentController) {
         this.model = model;
         this.client = client;
+        this.parentController = parentController;
         this.view = new OrderPizzaView(model);
         initController();
+        view.setVisible(true);
     }
 
     private void initController() {
         view.getBtnAdd().addActionListener(e -> onAddLine());
         view.getChkMoto().addActionListener(e -> updateSummary());
         view.getBtnOrder().addActionListener(e -> onOrder());
-        view.getBtnQuit().addActionListener(e -> {
-            view.dispose();
-            new InterfaceClientView(new InterfaceClientController(model, client)).setVisible(true);
-        });
+        view.getBtnQuit().addActionListener(e -> onQuit());
     }
 
     private void onAddLine() {
         String nomPizza = (String) view.getCbPizza().getSelectedItem();
-        String taille = (String) view.getCbSize().getSelectedItem();
-        String qtyText = view.getQtyField().getText().trim();
+        String taille   = (String) view.getCbSize().getSelectedItem();
+        String qtyText  = view.getQtyField().getText().trim();
 
         if (nomPizza == null || taille == null) {
             JOptionPane.showMessageDialog(view, "Veuillez sélectionner une pizza et une taille", "Erreur", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
         if (!qtyText.matches("\\d+")) {
             JOptionPane.showMessageDialog(view, "Quantité invalide", "Erreur", JOptionPane.ERROR_MESSAGE);
             return;
@@ -77,9 +82,9 @@ public class OrderPizzaController {
         Pizza pizza = model.getPizzaParNom(nomPizza);
         BigDecimal base = BigDecimal.valueOf(pizza.getPrixBase());
         BigDecimal unitPrice = switch (taille) {
-            case "naine" -> base.subtract(base.divide(BigDecimal.valueOf(3), RoundingMode.HALF_UP));
-            case "ogresse" -> base.add(base.divide(BigDecimal.valueOf(3), RoundingMode.HALF_UP));
-            default -> base;
+            case "naine"  -> base.subtract(base.divide(BigDecimal.valueOf(3), RoundingMode.HALF_UP));
+            case "ogresse"-> base.add   (base.divide(BigDecimal.valueOf(3), RoundingMode.HALF_UP));
+            default       -> base;
         };
 
         boolean merged = false;
@@ -100,7 +105,10 @@ public class OrderPizzaController {
 
         view.getQtyField().setText("");
         updateSummary();
-        view.getBtnOrder().setEnabled(client.getSolde() >= totalOrder.add(BigDecimal.valueOf(getDeliveryFee())).doubleValue());
+        // Activation / désactivation du bouton Commander selon le solde
+        view.getBtnOrder().setEnabled(
+                client.getSolde() >= totalOrder.add(BigDecimal.valueOf(getDeliveryFee())).doubleValue()
+        );
     }
 
     private double getDeliveryFee() {
@@ -127,7 +135,7 @@ public class OrderPizzaController {
             JOptionPane.showMessageDialog(view, "Aucune pizza dans le panier", "Erreur", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
+        // confirmation
         JOptionPane.showMessageDialog(
                 view,
                 view.getTxtSummary().getText(),
@@ -145,7 +153,9 @@ public class OrderPizzaController {
             client.approvisionner(-l.lineTotal.doubleValue());
         }
         double fee = getDeliveryFee();
-        if (fee > 0) client.approvisionner(-fee);
+        if (fee > 0) {
+            client.approvisionner(-fee);
+        }
 
         JOptionPane.showMessageDialog(
                 view,
@@ -153,5 +163,15 @@ public class OrderPizzaController {
                 "Succès",
                 JOptionPane.INFORMATION_MESSAGE
         );
+
+        // Au lieu de fermer, on cache la fenêtre et on revient au menu client
+        view.setVisible(false);
+        parentController.showClientView();
+    }
+
+    private void onQuit() {
+        // Cache la fenêtre de commande et réaffiche le menu client
+        view.setVisible(false);
+        parentController.showClientView();
     }
 }
