@@ -5,39 +5,38 @@ import com.formdev.flatlaf.extras.components.FlatButton;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Vue pour ajouter un ingrédient et sa quantité.
- */
 public class AddIngredientView extends JFrame {
     private JTextField nameField;
     private JTextField qtyField;
     private FlatButton btnAdd;
     private FlatButton btnBack;
 
+    // Constructeur
     public AddIngredientView() {
         super("Ajouter Ingrédient");
-        FlatLightLaf.setup();
-        initComponents();
+        FlatLightLaf.setup();                // Applique le thème FlatLaf
+        initComponents();                    // Initialise les composants graphiques
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        pack();                             // taille adaptée au contenu
-        setLocationRelativeTo(null);
-        setVisible(true);                   // rend la fenêtre visible
+        pack();                             // Ajuste la taille à son contenu
+        setLocationRelativeTo(null);        // Centre la fenêtre
+        setVisible(true);                   // Affiche la fenêtre
     }
 
+    // Initialise les champs et boutons
     private void initComponents() {
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5,5,5,5);
         gbc.anchor = GridBagConstraints.WEST;
 
-        // Nom
+        // Champ nom
         gbc.gridx = 0; gbc.gridy = 0;
         panel.add(new JLabel("Nom :"), gbc);
         nameField = new JTextField(15);
         gbc.gridx = 1;
         panel.add(nameField, gbc);
 
-        // Quantité
+        // Champ quantité
         gbc.gridx = 0; gbc.gridy = 1;
         panel.add(new JLabel("Quantité :"), gbc);
         qtyField = new JTextField(5);
@@ -58,7 +57,7 @@ public class AddIngredientView extends JFrame {
         gbc.gridy = 3;
         panel.add(btnBack, gbc);
 
-        getContentPane().add(panel);        // ajout du panel au frame
+        getContentPane().add(panel);        // Ajoute le panel à la fenêtre
     }
 
     // Getters pour le contrôleur

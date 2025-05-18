@@ -1,4 +1,3 @@
-// src/rapizz/controller/InterfaceClientController.java
 package rapizz.controller;
 
 import rapizz.model.Point_Pizzaria;
@@ -14,6 +13,7 @@ public class InterfaceClientController {
     InterfaceClientView view;
     OrderPizzaController orderController;
 
+    // Constructeur du contrôleur client
     public InterfaceClientController(Point_Pizzaria pizzeria, Client client) {
         this.pizzeria = pizzeria;
         this.client    = client;
@@ -22,6 +22,7 @@ public class InterfaceClientController {
         view.setVisible(true);
     }
 
+    // Initialise les actions des boutons de la vue client
     private void initController() {
         view.getBtnOrderPizza().addActionListener(e -> showOrderPizza());
         view.getBtnViewOrders().addActionListener(e -> showOrders());
@@ -30,6 +31,7 @@ public class InterfaceClientController {
         view.getBtnBack().addActionListener(e -> returnToMain());
     }
 
+    // Affiche la fenêtre de commande de pizza
     public void showOrderPizza() {
         view.setVisible(false);
         if (orderController == null) {
@@ -39,20 +41,24 @@ public class InterfaceClientController {
         }
     }
 
+    // Affiche la vue client principale
     public void showClientView() {
         view.setVisible(true);
     }
 
+    // Affiche les commandes du client
     public void showOrders() {
         String summary = pizzeria.afficherCommandesClient(client);
         JOptionPane.showMessageDialog(view, summary, "Résumé de vos commandes", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    // Affiche le solde du client
     public void showBalance() {
         double solde = client.getSolde();
         JOptionPane.showMessageDialog(view, String.format("Votre solde : %.2f €", solde), "Solde", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    // Permet d'ajouter un montant au solde du client
     public void addBalance() {
         String input = JOptionPane.showInputDialog(view, "Montant à ajouter :");
         if (input != null && input.matches("\\d+(\\.\\d{1,2})?")) {
@@ -63,6 +69,7 @@ public class InterfaceClientController {
         }
     }
 
+    // Retourne à la fenêtre principale de l'application
     public void returnToMain() {
         view.setVisible(false);
         new InterfacePrincipaleView(new InterfacePrincipaleController(pizzeria)).setVisible(true);

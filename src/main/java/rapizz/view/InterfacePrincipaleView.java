@@ -8,18 +8,20 @@ import java.util.Objects;
 public class InterfacePrincipaleView extends JFrame {
     private final InterfacePrincipaleController controller;
 
+    // Constructeur
     public InterfacePrincipaleView(InterfacePrincipaleController controller) {
         this.controller = controller;
         setTitle("RaPizz - Menu Principal");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(800, 600);
-        setLocationRelativeTo(null);
-        initComponents();
-        setVisible(true);
+        setLocationRelativeTo(null); // Centre la fenêtre
+        initComponents();            // Initialise les composants graphiques
+        setVisible(true);            // Affiche la fenêtre
     }
 
+    // Initialise les panels et les boutons
     private void initComponents() {
-        // Chargement de l'image de fond
+        // Panel avec image de fond
         JPanel backgroundPanel = getJPanel();
 
         // Panel central pour centrer les boutons
@@ -31,15 +33,17 @@ public class InterfacePrincipaleView extends JFrame {
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.insets = new Insets(20, 10, 20, 10);
 
-        // Panel pour Connexion et Gestion côte à côte
+        // Panel pour les deux boutons principaux côte à côte
         JPanel topButtons = new JPanel(new FlowLayout(FlowLayout.CENTER, 50, 0));
         topButtons.setOpaque(false);
 
+        // Bouton Connexion Client
         JButton loginButton = new JButton("Connexion Client");
         styleButton(loginButton, new Dimension(250, 100), new Color(183, 31, 3));
         loginButton.addActionListener(e -> { controller.showLogin(); dispose(); });
         topButtons.add(loginButton);
 
+        // Bouton Gestion Pizzeria
         JButton gestionButton = new JButton("Gestion Pizzeria");
         styleButton(gestionButton, new Dimension(250, 100), new Color(183, 31, 3));
         gestionButton.addActionListener(e -> { controller.showGestion(); dispose(); });
@@ -58,7 +62,7 @@ public class InterfacePrincipaleView extends JFrame {
         backgroundPanel.add(centerPanel, BorderLayout.CENTER);
         setContentPane(backgroundPanel);
 
-        // Redessiner le fond au redimensionnement
+        // Redessine le fond si la fenêtre est redimensionnée
         addComponentListener(new java.awt.event.ComponentAdapter() {
             @Override
             public void componentResized(java.awt.event.ComponentEvent e) {
@@ -67,6 +71,7 @@ public class InterfacePrincipaleView extends JFrame {
         });
     }
 
+    // Crée un panel avec image de fond personnalisée
     private JPanel getJPanel() {
         Image bgImage = new ImageIcon(Objects.requireNonNull(getClass().getResource("/rapizz/resources/Background_pizza.png"))).getImage();
 

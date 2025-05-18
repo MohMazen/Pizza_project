@@ -5,32 +5,34 @@ import java.awt.*;
 import java.util.Objects;
 
 public class GestionRapizzView extends JFrame {
-  private JButton btnClients;
-  private JButton btnRevenue;
-  private JButton btnStock;
-  private JButton btnAddIngredient;
-  private JButton btnAddPizza;
-  private JButton btnAddClient;
-  private JButton btnBack;
-  private JButton btnQuit;
+    private JButton btnClients;
+    private JButton btnRevenue;
+    private JButton btnStock;
+    private JButton btnAddIngredient;
+    private JButton btnAddPizza;
+    private JButton btnAddClient;
+    private JButton btnBack;
+    private JButton btnQuit;
 
-  public GestionRapizzView() {
-      super("RaPizz - Gestion");
-      setDefaultCloseOperation(EXIT_ON_CLOSE);
-      setSize(800, 600);
-      setLocationRelativeTo(null);
-      initComponents();
-      setVisible(true);
-  }
+    // Constructeur
+    public GestionRapizzView() {
+        super("RaPizz - Gestion");
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(800, 600);
+        setLocationRelativeTo(null); // Centre la fenêtre
+        initComponents();            // Initialise les composants graphiques
+        setVisible(true);            // Affiche la fenêtre
+    }
 
+    // Initialise les panels et les boutons
     private void initComponents() {
-        // Chargement de l'image de fond
+        // Panel avec image de fond
         JPanel backgroundPanel = getBackgroundPanel();
         backgroundPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(200, 0, 0, 0);
 
-        // Panel pour les boutons principaux (2x3)
+        // Panel principal pour les boutons d'action (2x3)
         JPanel mainButtonPanel = new JPanel(new GridLayout(2, 3, 5, 5));
         mainButtonPanel.setOpaque(false);
 
@@ -53,9 +55,9 @@ public class GestionRapizzView extends JFrame {
         gbc.anchor = GridBagConstraints.CENTER;
         backgroundPanel.add(mainButtonPanel, gbc);
 
-        // Panel pour les boutons "Retour" et "Quitter"
+        // Panel pour les boutons de navigation en bas
         JPanel bottomButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 20));
-        bottomButtonPanel.setOpaque(false); // Rendre transparent pour voir l'image de fond
+        bottomButtonPanel.setOpaque(false);
 
         btnBack = createButton("Retour à l'accueil");
         btnQuit = createButton("Quitter");
@@ -70,27 +72,25 @@ public class GestionRapizzView extends JFrame {
         setContentPane(backgroundPanel);
     }
 
-  private JPanel getBackgroundPanel() {
-      Image bgImage = new ImageIcon(Objects.requireNonNull(getClass().getResource("/rapizz/resources/Gestion_pizza.png"))).getImage();
+    // Crée un panel avec image de fond personnalisée
+    private JPanel getBackgroundPanel() {
+        Image bgImage = new ImageIcon(Objects.requireNonNull(getClass().getResource("/rapizz/resources/Gestion_pizza.png"))).getImage();
 
-      return new JPanel() {
-          @Override
-          protected void paintComponent(Graphics g) {
-              super.paintComponent(g);
-              if (bgImage != null) {
-                  g.drawImage(bgImage, 0, 0, getWidth(), getHeight(), this);
-              }
-          }
-      };
-  }
+        return new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                if (bgImage != null) {
+                    g.drawImage(bgImage, 0, 0, getWidth(), getHeight(), this);
+                }
+            }
+        };
+    }
 
+    // Crée un bouton stylisé
     private JButton createButton(String text) {
         JButton btn = new JButton(text);
-        if (text.equals("Quitter") || text.equals("Retour à l'accueil")) {
-            btn.setPreferredSize(new Dimension(200, 60));
-        } else {
-            btn.setPreferredSize(new Dimension(200, 60));
-        }
+        btn.setPreferredSize(new Dimension(200, 60));
         btn.setBackground(new Color(183, 31, 3));
         btn.setForeground(Color.BLACK);
         btn.setFont(new Font("SansSerif", Font.BOLD, 16));
@@ -98,13 +98,13 @@ public class GestionRapizzView extends JFrame {
         return btn;
     }
 
-  // Getters pour le contrôleur
-  public JButton getBtnClients() { return btnClients; }
-  public JButton getBtnRevenue() { return btnRevenue; }
-  public JButton getBtnStock() { return btnStock; }
-  public JButton getBtnAddIngredient() { return btnAddIngredient; }
-  public JButton getBtnAddPizza() { return btnAddPizza; }
-  public JButton getBtnAddClient() { return btnAddClient; }
-  public JButton getBtnBack() { return btnBack; }
-  public JButton getBtnQuit() { return btnQuit; }
+    // Getters pour le contrôleur
+    public JButton getBtnClients()        { return btnClients; }
+    public JButton getBtnRevenue()        { return btnRevenue; }
+    public JButton getBtnStock()          { return btnStock; }
+    public JButton getBtnAddIngredient()  { return btnAddIngredient; }
+    public JButton getBtnAddPizza()       { return btnAddPizza; }
+    public JButton getBtnAddClient()      { return btnAddClient; }
+    public JButton getBtnBack()           { return btnBack; }
+    public JButton getBtnQuit()           { return btnQuit; }
 }

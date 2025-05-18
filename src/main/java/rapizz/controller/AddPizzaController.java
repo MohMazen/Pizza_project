@@ -1,4 +1,3 @@
-// File: src/rapizz/controller/AddPizzaController.java
 package rapizz.controller;
 
 import rapizz.model.Pizza;
@@ -8,14 +7,16 @@ import rapizz.view.AddPizzaView;
 import javax.swing.*;
 import java.util.List;
 
+// Contrôleur pour ajouter une pizza
 public class AddPizzaController {
     private final Point_Pizzaria model;
     private final AddPizzaView view;
 
+    // Constructeur
     public AddPizzaController(Point_Pizzaria model, AddPizzaView view) {
         this.model = model;
         this.view = view;
-        // Remplissage de la checklist grâce au modèle
+        // Affiche les ingrédients disponibles
         List<String> options = model.getListeIngredients();
         view.setIngredientsOptions(options);
 
@@ -23,11 +24,13 @@ public class AddPizzaController {
         view.setVisible(true);
     }
 
+    // Initialise les boutons
     private void initController() {
         view.getBtnAdd().addActionListener(e -> onAdd());
         view.getBtnBack().addActionListener(e -> onBack());
     }
 
+    // Ajoute une pizza
     private void onAdd() {
         String name = view.getPizzaName();
         String priceText = view.getPriceText();
@@ -50,6 +53,7 @@ public class AddPizzaController {
         onBack();
     }
 
+    // Retour à la gestion principale
     private void onBack() {
         new GestionRapizzController(model);
         view.dispose();

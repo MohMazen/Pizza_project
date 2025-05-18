@@ -1,4 +1,3 @@
-// src/rapizz/view/InterfaceClientView.java
 package rapizz.view;
 
 import javax.imageio.ImageIO;
@@ -14,21 +13,22 @@ public class InterfaceClientView extends JFrame {
     private JButton btnAddBalance;
     private JButton btnBack;
 
+    // Constructeur
     public InterfaceClientView() {
         super("RaPizz - Espace Client");
 
-        // Fond
+        // Panneau de fond personnalisé
         BackgroundPanel background = new BackgroundPanel("src/main/resources/rapizz/resources/Background_pizza.png");
         background.setLayout(new BorderLayout());
         setContentPane(background);
 
-        // Conteneur principal
+        // Panel principal vertical
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setOpaque(false);
         mainPanel.setBorder(BorderFactory.createEmptyBorder(300, 30, 20, 30));
 
-        // Grille 2×2
+        // Grille 2x2 pour les boutons d'action
         JPanel grid = new JPanel(new GridLayout(2, 2, 30, 20));
         grid.setOpaque(false);
 
@@ -51,7 +51,7 @@ public class InterfaceClientView extends JFrame {
         mainPanel.add(grid);
         mainPanel.add(Box.createVerticalStrut(30));
 
-        // Bouton retour
+        // Panel pour le bouton retour
         JPanel bottom = new JPanel(new FlowLayout(FlowLayout.CENTER));
         bottom.setOpaque(false);
         btnBack = new JButton("Accueil");
@@ -62,39 +62,40 @@ public class InterfaceClientView extends JFrame {
         background.add(mainPanel, BorderLayout.CENTER);
 
         pack();
-        setSize(800,600);
+        setSize(800, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
+    // Applique un style personnalisé aux boutons
     private void styleButton(JButton b) {
-        b.setPreferredSize(new Dimension(140,35));
-        b.setBackground(new Color(245,191,66));
+        b.setPreferredSize(new Dimension(140, 35));
+        b.setBackground(new Color(245, 191, 66));
         b.setOpaque(true);
         b.setContentAreaFilled(true);
         b.setForeground(Color.BLACK);
         b.setFont(new Font("SansSerif", Font.BOLD, 18));
-        b.setBorder(BorderFactory.createLineBorder(Color.BLACK,2,true));
+        b.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, true));
     }
 
-    // === Getters pour le contrôleur ===
+    // Getters pour le contrôleur
     public JButton getBtnOrderPizza()  { return btnOrderPizza;  }
     public JButton getBtnViewOrders()  { return btnViewOrders;  }
     public JButton getBtnViewBalance() { return btnViewBalance; }
     public JButton getBtnAddBalance()  { return btnAddBalance;  }
     public JButton getBtnBack()        { return btnBack;       }
 
-    // Panneau de fond
+    // Panel interne pour afficher une image de fond
     private static class BackgroundPanel extends JPanel {
         private Image background;
         public BackgroundPanel(String path) {
             try { background = ImageIO.read(new File(path)); }
-            catch (IOException e) { System.err.println("Fond introuvable : "+path); }
+            catch (IOException e) { System.err.println("Fond introuvable : " + path); }
         }
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-            if (background!=null) g.drawImage(background,0,0,getWidth(),getHeight(),this);
+            if (background != null) g.drawImage(background, 0, 0, getWidth(), getHeight(), this);
         }
     }
 }

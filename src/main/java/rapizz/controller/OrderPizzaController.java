@@ -8,14 +8,10 @@ import rapizz.view.OrderPizzaView;
 
 import javax.swing.*;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Contrôleur pour la prise de commande de pizzas.
- */
 public class OrderPizzaController {
     Point_Pizzaria model;
     Client client;
@@ -45,6 +41,7 @@ public class OrderPizzaController {
         }
     }
 
+    // Constructeur du contrôleur
     public OrderPizzaController(Point_Pizzaria model, Client client, InterfaceClientController parentController) {
         this.model = model;
         this.client = client;
@@ -54,6 +51,7 @@ public class OrderPizzaController {
         view.setVisible(true);
     }
 
+    // Initialise les actions des boutons
     private void initController() {
         view.getBtnAdd().addActionListener(e -> onAddLine());
         view.getChkMoto().addActionListener(e -> updateSummary());
@@ -61,10 +59,11 @@ public class OrderPizzaController {
         view.getBtnQuit().addActionListener(e -> onQuit());
     }
 
+    // Ajoute une ligne de commande
     private void onAddLine() {
         String nomPizza = (String) view.getCbPizza().getSelectedItem();
-        String taille   = (String) view.getCbSize().getSelectedItem();
-        String qtyText  = view.getQtyField().getText().trim();
+        String taille = (String) view.getCbSize().getSelectedItem();
+        String qtyText = view.getQtyField().getText().trim();
 
         if (nomPizza == null || taille == null) {
             JOptionPane.showMessageDialog(view, "Veuillez sélectionner une pizza et une taille", "Erreur", JOptionPane.ERROR_MESSAGE);
@@ -76,7 +75,6 @@ public class OrderPizzaController {
         }
         int qty = Integer.parseInt(qtyText);
         Pizza pizza = model.getPizzaParNom(nomPizza);
-        // Création d'une commande temporaire pour calculer le prix avec la méthode de Commande
         Commande commandeTmp = new Commande(0, client, pizza, taille, qty, new Date());
         BigDecimal unitPrice = BigDecimal.valueOf(commandeTmp.calculPrixTotal() / qty);
 
@@ -98,13 +96,14 @@ public class OrderPizzaController {
         view.getBtnOrder().setEnabled(client.getSolde() >= total);
     }
 
+    // Retourne les frais de livraison
     private double getDeliveryFee() {
         return view.getChkMoto().isSelected() ? DELIVERY_FEE_MOTO : 0.0;
     }
 
+    // Calcule le total de la commande
     private double calculateOrderTotal() {
         if (orderLines.isEmpty()) return 0.0;
-        // Création d'une commande temporaire pour bénéficier du calcul de prix
         OrderLine first = orderLines.get(0);
         Pizza p = model.getPizzaParNom(first.nomPizza);
         Commande temp = new Commande(0, client, p, first.taille, first.qty, new Date());
@@ -116,11 +115,11 @@ public class OrderPizzaController {
         return temp.calculPrixTotal();
     }
 
+    // Met à jour le résumé de la commande
     private void updateSummary() {
         StringBuilder sb = new StringBuilder();
         for (OrderLine l : orderLines) {
-            sb.append(String.format("%d × %s (%s) = %.2f €%n",
-                    l.qty, l.nomPizza, l.taille, l.lineTotal.doubleValue()));
+            sb.append(String.format("%d × %s (%s) = %.2f €%n", l.qty, l.nomPizza, l.taille, l.lineTotal.doubleValue()));
         }
         if (!orderLines.isEmpty()) sb.append("\n");
         double fee = getDeliveryFee();
@@ -132,6 +131,7 @@ public class OrderPizzaController {
         view.getTxtSummary().setText(sb.toString());
     }
 
+    // Valide la commande
     private void onOrder() {
         if (orderLines.isEmpty()) {
             JOptionPane.showMessageDialog(view, "Aucune pizza dans le panier", "Erreur", JOptionPane.ERROR_MESSAGE);
@@ -171,6 +171,7 @@ public class OrderPizzaController {
         parentController.showClientView();
     }
 
+    // Annule la commande et ferme la vue
     private void onQuit() {
         orderLines.clear();
         view.getTxtSummary().setText("");

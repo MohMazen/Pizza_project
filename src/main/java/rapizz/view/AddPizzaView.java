@@ -1,4 +1,3 @@
-// File: src/rapizz/view/AddPizzaView.java
 package rapizz.view;
 
 import javax.swing.*;
@@ -7,9 +6,6 @@ import java.util.List;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.extras.components.FlatButton;
 
-/**
- * Vue pour ajouter une nouvelle pizza avec sélection d'ingrédients.
- */
 public class AddPizzaView extends JFrame {
     private JTextField nameField;
     private JTextField priceField;
@@ -17,31 +13,35 @@ public class AddPizzaView extends JFrame {
     private FlatButton btnAdd;
     private FlatButton btnBack;
 
+    // Constructeur
     public AddPizzaView() {
         super("Ajouter Pizza");
-        FlatLightLaf.setup();
-        initComponents();
+        FlatLightLaf.setup();                // Applique le thème FlatLaf
+        initComponents();                    // Initialise les composants graphiques
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        pack();
-        setLocationRelativeTo(null);
+        pack();                             // Ajuste la taille à son contenu
+        setLocationRelativeTo(null);        // Centre la fenêtre
     }
 
+    // Initialise les champs, la liste d'ingrédients et les boutons
     private void initComponents() {
         JPanel main = new JPanel(new BorderLayout(10, 10));
         main.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // Informations pizza
+        // Champs nom et prix
         JPanel inputPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.anchor = GridBagConstraints.WEST;
 
+        // Champ nom
         gbc.gridx = 0; gbc.gridy = 0;
         inputPanel.add(new JLabel("Nom :"), gbc);
         nameField = new JTextField(15);
         gbc.gridx = 1;
         inputPanel.add(nameField, gbc);
 
+        // Champ prix
         gbc.gridx = 0; gbc.gridy = 1;
         inputPanel.add(new JLabel("Prix de base :"), gbc);
         priceField = new JTextField(5);
@@ -50,7 +50,7 @@ public class AddPizzaView extends JFrame {
 
         main.add(inputPanel, BorderLayout.NORTH);
 
-        // Checklist ingrédients
+        // Panel pour la checklist des ingrédients
         ingredientsPanel = new JPanel();
         ingredientsPanel.setLayout(new BoxLayout(ingredientsPanel, BoxLayout.Y_AXIS));
         JScrollPane scroll = new JScrollPane(ingredientsPanel);
@@ -58,7 +58,7 @@ public class AddPizzaView extends JFrame {
         main.add(new JLabel("Sélectionnez les ingrédients :"), BorderLayout.CENTER);
         main.add(scroll, BorderLayout.SOUTH);
 
-        // Boutons
+        // Boutons Ajouter et Retour
         JPanel buttons = new JPanel();
         btnAdd = new FlatButton();
         btnAdd.setText("Ajouter");
@@ -71,9 +71,7 @@ public class AddPizzaView extends JFrame {
         getContentPane().add(buttons, BorderLayout.SOUTH);
     }
 
-    /**
-     * Remplit la checklist d'ingrédients.
-     */
+    // Remplit la checklist d'ingrédients
     public void setIngredientsOptions(List<String> ingredients) {
         ingredientsPanel.removeAll();
         for (String ing : ingredients) {
@@ -85,9 +83,7 @@ public class AddPizzaView extends JFrame {
         pack();
     }
 
-    /**
-     * Retourne la liste des ingrédients sélectionnés.
-     */
+    // Retourne la liste des ingrédients sélectionnés
     public java.util.List<String> getSelectedIngredients() {
         java.util.List<String> selected = new java.util.ArrayList<>();
         for (Component c : ingredientsPanel.getComponents()) {
@@ -98,8 +94,9 @@ public class AddPizzaView extends JFrame {
         return selected;
     }
 
-    public String getPizzaName() { return nameField.getText().trim(); }
-    public String getPriceText() { return priceField.getText().trim(); }
-    public FlatButton getBtnAdd() { return btnAdd; }
-    public FlatButton getBtnBack() { return btnBack; }
+    // Getters pour le contrôleur
+    public String getPizzaName()      { return nameField.getText().trim(); }
+    public String getPriceText()      { return priceField.getText().trim(); }
+    public FlatButton getBtnAdd()     { return btnAdd; }
+    public FlatButton getBtnBack()    { return btnBack; }
 }

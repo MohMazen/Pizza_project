@@ -3,9 +3,6 @@ package rapizz.view;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Vue pour ajouter un client (nom, adresse, téléphone).
- */
 public class AddClientView extends JFrame {
     private JTextField nameField;
     private JTextField addressField;
@@ -13,35 +10,37 @@ public class AddClientView extends JFrame {
     private JButton btnAdd;
     private JButton btnBack;
 
+    // Constructeur
     public AddClientView() {
         super("Ajouter Client");
-        initComponents();
+        initComponents();                // Initialise les composants graphiques
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        pack();                             // taille adaptée au contenu
-        setLocationRelativeTo(null);
+        pack();                         // Ajuste la taille à son contenu
+        setLocationRelativeTo(null);    // Centre la fenêtre
     }
 
+    // Initialise les champs et boutons
     private void initComponents() {
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5,5,5,5);
         gbc.anchor = GridBagConstraints.WEST;
 
-        // Nom
+        // Champ nom
         gbc.gridx = 0; gbc.gridy = 0;
         panel.add(new JLabel("Nom :"), gbc);
         nameField = new JTextField(15);
         gbc.gridx = 1;
         panel.add(nameField, gbc);
 
-        // Adresse
+        // Champ adresse
         gbc.gridx = 0; gbc.gridy = 1;
         panel.add(new JLabel("Adresse :"), gbc);
         addressField = new JTextField(15);
         gbc.gridx = 1;
         panel.add(addressField, gbc);
 
-        // Téléphone
+        // Champ téléphone
         gbc.gridx = 0; gbc.gridy = 2;
         panel.add(new JLabel("Téléphone :"), gbc);
         phoneField = new JTextField(10);
@@ -63,7 +62,7 @@ public class AddClientView extends JFrame {
         getContentPane().add(panel);
     }
 
-    // Getters pour le contrôleur
+    // Getters pour accéder aux champs et boutons
     public JTextField getNameField()    { return nameField;    }
     public JTextField getAddressField() { return addressField; }
     public JTextField getPhoneField()   { return phoneField;   }
