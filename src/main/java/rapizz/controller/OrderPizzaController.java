@@ -24,6 +24,7 @@ public class OrderPizzaController {
 
     List<OrderLine> orderLines = new ArrayList<>();
     static final double DELIVERY_FEE_MOTO = 2.0;
+    static final double TVA_RATE = 0.20;
 
     private static class OrderLine {
         String nomPizza, taille;
@@ -75,12 +76,9 @@ public class OrderPizzaController {
         }
         int qty = Integer.parseInt(qtyText);
         Pizza pizza = model.getPizzaParNom(nomPizza);
-        BigDecimal base = BigDecimal.valueOf(pizza.getPrixBase());
-        BigDecimal unitPrice = switch (taille) {
-            case "naine"  -> base.subtract(base.divide(BigDecimal.valueOf(3), RoundingMode.HALF_UP));
-            case "ogresse"-> base.add   (base.divide(BigDecimal.valueOf(3), RoundingMode.HALF_UP));
-            default       -> base;
-        };
+        // Création d'une commande temporaire pour calculer le prix avec la méthode de Commande
+        Commande commandeTmp = new Commande(0, client, pizza, taille, qty, new Date());
+        BigDecimal unitPrice = BigDecimal.valueOf(commandeTmp.calculPrixTotal() / qty);
 
         boolean merged = false;
         for (OrderLine line : orderLines) {
@@ -174,6 +172,8 @@ public class OrderPizzaController {
     }
 
     private void onQuit() {
+        orderLines.clear();
+        view.getTxtSummary().setText("");
         view.setVisible(false);
         parentController.showClientView();
     }
